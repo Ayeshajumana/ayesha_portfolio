@@ -18,31 +18,32 @@
            ========================================================================== */
         :root {
             /* Theme Colors */
-            --bg-deep: #0c0510;
-            --bg-color: #170a1a;
-            --bg-card: rgba(36, 14, 43, 0.78);
-            --bg-card-hover: rgba(58, 18, 64, 0.92);
-            --bg-panel: #260f2d;
+            --bg-deep: #0a040e;
+            --bg-color: #140818;
+            --bg-card: rgba(28, 11, 34, 0.85);
+            --bg-card-hover: rgba(48, 15, 54, 0.95);
+            --bg-panel: #200a26;
             
             /* Laser Accent & Neon */
             --color-purple-bright: #9824d6;
             --color-purple-neon: #c026d3;
             --color-laser-cyan: #38bdf8;
             --color-laser-magenta: #f43f5e;
+            --color-laser-beam: #d946ef;
             --color-magenta: #e879f9;
-            --color-purple-glow: rgba(152, 36, 214, 0.35);
-            --color-purple-border: rgba(152, 36, 214, 0.28);
-            --color-purple-dark: #37103a;
+            --color-purple-glow: rgba(152, 36, 214, 0.4);
+            --color-purple-border: rgba(152, 36, 214, 0.32);
+            --color-purple-dark: #300c33;
 
             /* Typography Colors */
             --color-text-main: #f0ead6;
             --color-text-ivory: #fdf8e9;
-            --color-text-secondary: #a69da9;
-            --color-text-muted: #857a8a;
+            --color-text-secondary: #aba1af;
+            --color-text-muted: #827588;
             
             /* Badges & Accents */
             --badge-bg: rgba(152, 36, 214, 0.18);
-            --badge-border: rgba(192, 38, 211, 0.4);
+            --badge-border: rgba(192, 38, 211, 0.45);
 
             /* Typography Stacks */
             --font-display: 'Anton', sans-serif;
@@ -52,7 +53,7 @@
 
             /* Layout */
             --max-width: 1320px;
-            --section-spacing: 6.5rem;
+            --section-spacing: 6rem;
         }
 
         /* Global Reset */
@@ -70,7 +71,7 @@
 
         body {
             font-family: var(--font-body);
-            background: radial-gradient(circle at 50% 0%, #2b0e33 0%, #150819 50%, #09030c 100%);
+            background: radial-gradient(circle at 50% 0%, #290d30 0%, #130717 50%, #08030b 100%);
             min-height: 100vh;
             line-height: 1.5;
             overflow-x: hidden;
@@ -97,11 +98,11 @@
             position: sticky;
             top: 0;
             width: 100%;
-            background: rgba(12, 5, 16, 0.9);
+            background: rgba(10, 4, 14, 0.92);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--color-purple-border);
-            padding: 1.25rem 3rem;
+            padding: 1.1rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -234,21 +235,52 @@
             max-width: 800px;
         }
 
-        /* Visual Graphic Container Frame */
-        .graphic-frame {
+        /* Visual Media Frame */
+        .visual-frame {
             position: relative;
-            border-radius: 18px;
+            border-radius: 16px;
             overflow: hidden;
             border: 1px solid var(--color-purple-border);
             background: var(--bg-card);
-            padding: 2.5rem;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(152, 36, 214, 0.12);
-            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            margin-top: 2rem;
         }
 
-        .graphic-frame:hover {
+        .visual-frame:hover {
             border-color: rgba(192, 38, 211, 0.5);
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(152, 36, 214, 0.25);
+        }
+
+        .visual-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .visual-caption-bar {
+            padding: 1rem 1.5rem;
+            background: rgba(18, 7, 24, 0.95);
+            border-top: 1px solid rgba(152, 36, 214, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .caption-title {
+            font-family: var(--font-mono);
+            color: var(--color-magenta);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .caption-text {
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
         }
 
         /* ==========================================================================
@@ -302,7 +334,7 @@
             font-size: 1.25rem;
             color: var(--color-text-secondary);
             max-width: 820px;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             line-height: 1.6;
         }
 
@@ -311,12 +343,13 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 1rem;
-            background: linear-gradient(135deg, rgba(55, 16, 58, 0.8), rgba(20, 8, 24, 0.9));
-            border: 1px solid var(--color-magenta);
+            background: linear-gradient(135deg, rgba(50, 14, 55, 0.85), rgba(18, 7, 22, 0.95));
+            border: 1px solid var(--color-purple-border);
             border-radius: 16px;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(152, 36, 214, 0.2);
+            padding: 1.8rem 1.2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(152, 36, 214, 0.18);
             position: relative;
+            margin-bottom: 2.5rem;
         }
 
         .hero-node {
@@ -335,8 +368,8 @@
         }
 
         .hero-node-icon {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: rgba(152, 36, 214, 0.2);
             border: 1px solid var(--color-purple-border);
@@ -356,28 +389,28 @@
 
         .hero-node-title {
             font-family: var(--font-display);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--color-text-ivory);
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .hero-node-sub {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--color-text-muted);
             font-family: var(--font-mono);
             margin-top: 0.2rem;
         }
 
         /* ==========================================================================
-           02. NEW TO LASER CUTTING? (CONCEPT & INTERACTION)
+           02. NEW TO LASER CUTTING?
            ========================================================================== */
         .definition-highlight-box {
             background: linear-gradient(135deg, rgba(74, 21, 75, 0.45), rgba(26, 14, 28, 0.85));
             border-left: 4px solid var(--color-purple-bright);
             border-radius: 0 12px 12px 0;
             padding: 1.5rem 2rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .definition-highlight-text {
@@ -467,7 +500,7 @@
         }
 
         /* ==========================================================================
-           03. WHAT IS A LASER? (OPTICAL PHYSICS)
+           03. WHAT IS A LASER?
            ========================================================================== */
         .laser-optics-schematic {
             display: grid;
@@ -506,6 +539,7 @@
             align-items: center;
             justify-content: center;
             color: var(--color-text-ivory);
+            font-size: 1.5rem;
         }
 
         .optic-stage-title {
@@ -587,7 +621,7 @@
         }
 
         /* ==========================================================================
-           05. TYPES OF LASER CUTTING SYSTEMS (4 MAJOR TYPES)
+           05. TYPES OF LASER CUTTING SYSTEMS
            ========================================================================== */
         .systems-grid {
             display: grid;
@@ -646,7 +680,7 @@
         }
 
         /* ==========================================================================
-           06. LASER PROCESSES (3 LARGE PANELS: CUT, SCAN, MARK)
+           06. LASER PROCESSES
            ========================================================================== */
         .processes-triad-grid {
             display: grid;
@@ -698,20 +732,20 @@
         }
 
         /* ==========================================================================
-           07. STAGES OF LASER CUTTING (9-STAGE TIMELINE)
+           07. STAGES OF LASER CUTTING (9 STAGES)
            ========================================================================== */
         .stages-9-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.25rem;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
 
         .stage-9-card {
             background: var(--bg-card);
             border: 1px solid var(--color-purple-border);
-            border-radius: 12px;
-            padding: 1.5rem 1.25rem;
+            border-radius: 14px;
+            padding: 1.6rem 1.4rem;
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
@@ -732,44 +766,42 @@
 
         .stage-9-title {
             font-family: var(--font-display);
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             color: var(--color-text-ivory);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
 
         .stage-9-sub {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--color-text-muted);
             font-family: var(--font-mono);
         }
 
         /* ==========================================================================
-           09. CUT OR SCAN? (SPLIT COMPARISON)
+           09. CUT OR SCAN?
            ========================================================================== */
         .cut-scan-split-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
+            gap: 2rem;
             margin-top: 2rem;
         }
 
         .cut-scan-box {
             background: var(--bg-card);
-            border-radius: 18px;
+            border-radius: 16px;
             padding: 2.5rem 2rem;
-            border: 1px solid var(--color-purple-border);
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
         }
 
         .cut-scan-box.cut-side {
-            border-color: var(--color-laser-magenta);
+            border: 2px solid var(--color-laser-magenta);
         }
 
         .cut-scan-box.scan-side {
-            border-color: var(--color-laser-cyan);
+            border: 2px solid var(--color-laser-cyan);
         }
 
         .cut-scan-header {
@@ -780,30 +812,35 @@
 
         .cut-scan-title {
             font-family: var(--font-display);
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             letter-spacing: 1px;
         }
 
-        .cut-title { color: #fb7185; }
-        .scan-title { color: #7dd3fc; }
+        .cut-title {
+            color: #fb7185;
+        }
+
+        .scan-title {
+            color: #7dd3fc;
+        }
 
         .diagram-ascii-box {
-            background: rgba(14, 6, 18, 0.95);
-            border-radius: 10px;
+            background: #08030c;
+            border: 1px dashed var(--color-purple-border);
             padding: 1.25rem;
+            border-radius: 10px;
             font-family: var(--font-mono);
             font-size: 0.85rem;
-            border: 1px solid rgba(152, 36, 214, 0.2);
+            line-height: 1.6;
             text-align: center;
-            color: var(--color-text-ivory);
         }
 
         /* ==========================================================================
-           10. MATERIALS (GRID)
+           10. MATERIALS
            ========================================================================== */
         .laser-materials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.25rem;
             margin-top: 2rem;
         }
@@ -812,16 +849,14 @@
             background: var(--bg-card);
             border: 1px solid var(--color-purple-border);
             border-radius: 12px;
-            padding: 1.4rem 1.25rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
+            padding: 1.5rem;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
         .laser-mat-card:hover {
             border-color: var(--color-magenta);
-            transform: translateY(-3px);
+            transform: translateY(-4px);
         }
 
         .laser-mat-title {
@@ -829,47 +864,40 @@
             font-size: 1.3rem;
             color: var(--color-text-ivory);
             letter-spacing: 1px;
+            margin-bottom: 0.35rem;
         }
 
         .laser-mat-cat {
-            font-family: var(--font-mono);
             font-size: 0.72rem;
             color: var(--color-magenta);
-            text-transform: uppercase;
+            font-family: var(--font-mono);
         }
 
         /* ==========================================================================
-           11. LASER PARAMETERS (CONTROL PANEL INFOGRAPHIC)
+           11. PARAMETERS
            ========================================================================== */
         .parameters-control-deck {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
 
         .param-card {
             background: var(--bg-card);
             border: 1px solid var(--color-purple-border);
-            border-radius: 14px;
-            padding: 1.75rem 1.5rem;
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
-            transition: all 0.3s ease;
-        }
-
-        .param-card:hover {
-            border-color: var(--color-magenta);
-            box-shadow: 0 0 25px rgba(152, 36, 214, 0.2);
+            gap: 0.75rem;
         }
 
         .param-tag {
             font-family: var(--font-mono);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--color-magenta);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .param-name {
@@ -882,70 +910,59 @@
         .param-effect {
             font-size: 0.8rem;
             color: var(--color-text-secondary);
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
         /* ==========================================================================
-           12-19. MY PRACTICAL WORKFLOW & RDWORKS BATMAN CASE STUDY
+           12-19. WORKFLOW & EVIDENCE
            ========================================================================== */
         .rdworks-case-study-box {
-            margin-top: 3rem;
-            background: linear-gradient(135deg, rgba(55, 16, 58, 0.85), rgba(18, 7, 24, 0.95));
-            border: 1px solid var(--color-magenta);
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
             border-radius: 18px;
             padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(152, 36, 214, 0.25);
+            margin-top: 2.5rem;
             display: grid;
-            grid-template-columns: 1.1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 2.5rem;
             align-items: center;
         }
 
-        .case-study-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
         .case-study-title {
             font-family: var(--font-display);
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             color: var(--color-text-ivory);
-            letter-spacing: 1.5px;
-            line-height: 1.1;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         .case-study-quote {
             font-family: var(--font-serif);
-            font-size: 1.15rem;
-            color: var(--color-magenta);
-            line-height: 1.5;
+            font-size: 1.05rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .case-study-tags {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .case-pill {
-            background: rgba(14, 6, 18, 0.85);
+            background: rgba(14, 6, 18, 0.8);
             border: 1px solid var(--color-purple-border);
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 8px;
             font-family: var(--font-mono);
             font-size: 0.75rem;
             color: var(--color-text-main);
         }
 
-        .case-pill strong {
-            color: var(--color-magenta);
-        }
-
-        /* Practical Evidence Slots Grid (Placeholders & Live Photos) */
         .evidence-gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             margin-top: 2.5rem;
         }
@@ -953,7 +970,7 @@
         .evidence-slot-card {
             background: var(--bg-card);
             border: 1px solid var(--color-purple-border);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -962,32 +979,43 @@
 
         .evidence-slot-card:hover {
             border-color: var(--color-magenta);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(152, 36, 214, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(152, 36, 214, 0.25);
+        }
+
+        .evidence-img-wrap {
+            position: relative;
+            background: #08030c;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .evidence-img-wrap img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
         }
 
         .evidence-preview-placeholder {
-            width: 100%;
-            height: 190px;
-            background: #130717;
+            min-height: 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            color: var(--color-text-muted);
-            border-bottom: 1px solid rgba(152, 36, 214, 0.15);
-            position: relative;
-        }
-
-        .evidence-preview-placeholder svg {
+            background: linear-gradient(135deg, rgba(32, 10, 38, 0.9), rgba(12, 4, 16, 0.95));
+            border-bottom: 1px solid var(--color-purple-border);
+            gap: 0.75rem;
             color: var(--color-magenta);
-            opacity: 0.7;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
         }
 
         .evidence-slot-meta {
-            padding: 1.25rem;
-            background: rgba(14, 6, 18, 0.95);
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 0.35rem;
@@ -997,21 +1025,20 @@
             font-family: var(--font-mono);
             font-size: 0.72rem;
             color: var(--color-magenta);
-            text-transform: uppercase;
             font-weight: 600;
         }
 
         .evidence-slot-title {
             font-family: var(--font-display);
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             color: var(--color-text-ivory);
             letter-spacing: 0.5px;
         }
 
         .evidence-slot-desc {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            line-height: 1.4;
         }
 
         /* ==========================================================================
@@ -1020,79 +1047,69 @@
         .adv-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1.25rem;
+            gap: 1rem;
             margin-top: 2rem;
         }
 
         .adv-tile {
-            background: var(--bg-card);
-            border: 1px solid rgba(94, 234, 212, 0.3);
+            background: linear-gradient(135deg, rgba(45, 15, 52, 0.7), rgba(20, 8, 25, 0.9));
+            border: 1px solid var(--color-purple-border);
+            padding: 1.25rem 1rem;
             border-radius: 12px;
-            padding: 1.5rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #5eead4;
-            transition: all 0.25s ease;
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
         }
 
         .adv-tile:hover {
-            border-color: #5eead4;
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(94, 234, 212, 0.2);
+            border-color: var(--color-magenta);
+            transform: scale(1.03);
         }
 
         .limit-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.25rem;
             margin-top: 2rem;
         }
 
         .limit-tile {
             background: var(--bg-card);
-            border: 1px solid var(--color-purple-border);
+            border: 1px solid rgba(244, 63, 94, 0.25);
+            padding: 1.5rem;
             border-radius: 12px;
-            padding: 1.5rem 1.25rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .limit-tile:hover {
-            border-color: var(--color-magenta);
-            transform: translateY(-3px);
+            gap: 0.4rem;
         }
 
         .limit-title {
             font-family: var(--font-display);
-            font-size: 1.3rem;
-            color: var(--color-text-ivory);
+            font-size: 1.2rem;
+            color: #fb7185;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
         }
 
         .limit-text {
             font-size: 0.8rem;
             color: var(--color-text-secondary);
-            line-height: 1.45;
+            line-height: 1.4;
         }
 
         /* ==========================================================================
            22. SAFETY
            ========================================================================== */
         .safety-panel {
-            background: linear-gradient(135deg, rgba(74, 21, 75, 0.4), rgba(20, 8, 25, 0.9));
-            border: 1px solid rgba(244, 63, 94, 0.5);
+            background: linear-gradient(135deg, rgba(50, 10, 25, 0.5), rgba(18, 5, 20, 0.9));
+            border: 1px solid rgba(244, 63, 94, 0.4);
             border-radius: 18px;
             padding: 2.5rem;
             margin-top: 2rem;
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 280px 1fr;
             gap: 2.5rem;
             align-items: center;
         }
@@ -1149,7 +1166,7 @@
         .final-quote-block {
             text-align: center;
             margin-top: 3.5rem;
-            padding: 3.5rem 2rem;
+            padding: 4rem 2rem;
             background: linear-gradient(180deg, rgba(74, 21, 75, 0.35) 0%, rgba(18, 7, 24, 0.8) 100%);
             border-radius: 20px;
             border: 1px solid var(--color-purple-border);
@@ -1157,7 +1174,7 @@
 
         .final-cream-statement {
             font-family: var(--font-display);
-            font-size: clamp(2rem, 4.5vw, 4rem);
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
             color: var(--color-text-ivory);
             letter-spacing: 2px;
             line-height: 1.1;
@@ -1182,7 +1199,7 @@
             font-family: var(--font-mono);
             font-size: 0.8rem;
             color: var(--color-text-muted);
-            background: #0c0510;
+            background: #08030c;
         }
 
         .footer-nav {
@@ -1207,10 +1224,10 @@
             .hero-pipeline-banner {
                 grid-template-columns: repeat(3, 1fr);
             }
-            .systems-grid, .laser-optics-schematic, .optical-train-flow, .parameters-control-deck, .adv-grid {
+            .systems-grid, .laser-optics-schematic, .optical-train-flow, .parameters-control-deck, .adv-grid, .laser-materials-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .rdworks-case-study-box, .safety-panel {
+            .rdworks-case-study-box, .safety-panel, .stages-9-grid, .evidence-gallery-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -1222,10 +1239,10 @@
             .nav-links {
                 display: none;
             }
-            .hero-pipeline-banner, .beam-interaction-grid, .cut-scan-split-grid, .processes-triad-grid {
+            .hero-pipeline-banner, .beam-interaction-grid, .cut-scan-split-grid, .processes-triad-grid, .limit-grid {
                 grid-template-columns: 1fr;
             }
-            .systems-grid, .laser-optics-schematic, .optical-train-flow, .parameters-control-deck, .adv-grid {
+            .systems-grid, .laser-optics-schematic, .optical-train-flow, .parameters-control-deck, .adv-grid, .laser-materials-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -1279,7 +1296,7 @@
                 <div class="hero-node">
                     <div class="hero-node-num">01</div>
                     <div class="hero-node-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     </div>
                     <div class="hero-node-title">DIGITAL IMAGE</div>
                     <div class="hero-node-sub">Source Artwork</div>
@@ -1288,7 +1305,7 @@
                 <div class="hero-node">
                     <div class="hero-node-num">02</div>
                     <div class="hero-node-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
                     </div>
                     <div class="hero-node-title">VECTOR / DXF</div>
                     <div class="hero-node-sub">Geometry Paths</div>
@@ -1297,7 +1314,7 @@
                 <div class="hero-node">
                     <div class="hero-node-num">03</div>
                     <div class="hero-node-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                     </div>
                     <div class="hero-node-title">LASER PATH</div>
                     <div class="hero-node-sub">Toolpath Trajectory</div>
@@ -1306,7 +1323,7 @@
                 <div class="hero-node">
                     <div class="hero-node-num">04</div>
                     <div class="hero-node-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     </div>
                     <div class="hero-node-title">CUT / SCAN</div>
                     <div class="hero-node-sub">Energy Deposition</div>
@@ -1315,10 +1332,19 @@
                 <div class="hero-node">
                     <div class="hero-node-num">05</div>
                     <div class="hero-node-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     </div>
                     <div class="hero-node-title">OUTPUT</div>
-                    <div class="hero-node-sub">Physical Part</div>
+                    <div class="hero-node-sub">Physical Component</div>
+                </div>
+            </div>
+
+            <!-- Hero Visual Frame -->
+            <div class="visual-frame">
+                <img src="laser-assets/laser_hero_pipeline.jpg" alt="Laser Cutting Digital Design to Precision Fabrication Pipeline" loading="eager">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">DIGITAL DESIGN → CNC TOOLPATH → LASER FABRICATION → PHYSICAL OUTPUT</span>
+                    <span class="caption-text">ProtoSem Digital Fabrication Studio</span>
                 </div>
             </div>
         </div>
@@ -1345,9 +1371,9 @@
                 <div class="interaction-card cut-focus">
                     <div class="cut-badge interaction-badge">OPERATION: CUT</div>
                     <h3 class="interaction-title">CUT</h3>
-                    <p class="interaction-desc">Material completely separated along the path.</p>
+                    <p class="interaction-desc">Material completely separated along the laser path.</p>
                     <div class="interaction-schematic">
-                        <div>HIGH POWER • LOW SPEED</div>
+                        <div>INTENSE FOCUS • TOTAL PENETRATION</div>
                         <div style="color: #fb7185; font-weight: bold;">SEPARATION THROUGH MATERIAL</div>
                     </div>
                 </div>
@@ -1356,7 +1382,7 @@
                 <div class="interaction-card scan-focus">
                     <div class="scan-badge interaction-badge">OPERATION: SCAN</div>
                     <h3 class="interaction-title">SCAN / ENGRAVE</h3>
-                    <p class="interaction-desc">Surface selectively marked or rastered.</p>
+                    <p class="interaction-desc">Surface selectively marked or raster-etched.</p>
                     <div class="interaction-schematic">
                         <div>TUNED POWER • HIGH SPEED</div>
                         <div style="color: #7dd3fc; font-weight: bold;">SURFACE ABLATION ONLY</div>
@@ -1407,6 +1433,15 @@
                 </div>
             </div>
 
+            <!-- Optical Physics Illustration -->
+            <div class="visual-frame">
+                <img src="laser-assets/laser_physics_optics.jpg" alt="Laser Physics: Stimulated Emission of Radiation and Optical Resonator" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">OPTICAL CAVITY RESONANCE &amp; COHERENT PHOTON EMISSION</span>
+                    <span class="caption-text">Population Inversion → Stimulated Emission → Collimated Beam</span>
+                </div>
+            </div>
+
             <div class="laser-traits-grid">
                 <div class="trait-tile">
                     <div class="trait-name">COHERENT</div>
@@ -1421,7 +1456,7 @@
                     <div class="trait-desc">Focusable to micro-spot</div>
                 </div>
                 <div class="trait-tile">
-                    <div class="trait-name">HIGH DENSITY</div>
+                    <div class="trait-name">HIGH ENERGY DENSITY</div>
                     <div class="trait-desc">Instantaneous localized heat</div>
                 </div>
             </div>
@@ -1445,11 +1480,11 @@
                     <div class="opt-train-desc">Generates photon flux</div>
                 </div>
                 <div class="opt-train-node">
-                    <div class="opt-train-title">MIRRORS</div>
+                    <div class="opt-train-title">MIRRORS / OPTICS</div>
                     <div class="opt-train-desc">45° Optical routing</div>
                 </div>
                 <div class="opt-train-node">
-                    <div class="opt-train-title">FOCUS LENS</div>
+                    <div class="opt-train-title">FOCUSING LENS</div>
                     <div class="opt-train-desc">Converges beam profile</div>
                 </div>
                 <div class="opt-train-node">
@@ -1465,6 +1500,15 @@
                     <div class="opt-train-desc">Finished feature</div>
                 </div>
             </div>
+
+            <!-- Mechanism Cross-Section Visual -->
+            <div class="visual-frame">
+                <img src="laser-assets/laser_mechanism_crosssection.jpg" alt="Cross-sectional Technical Illustration of Laser Cutting Head and Kerf Cut" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">CROSS-SECTIONAL BEAM TRAIN, FOCUSING LENS &amp; KERF EJECTION</span>
+                    <span class="caption-text">Laser Source → Steering Mirrors → Focusing Lens → Substrate Interaction</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1476,7 +1520,16 @@
             <div class="section-header">
                 <div class="section-tag">Machine Taxonomy</div>
                 <h2 class="section-title">TYPES OF LASER CUTTING SYSTEMS</h2>
-                <p class="section-subtitle">Comparing emission sources and optimal industrial material compatibility.</p>
+                <p class="section-subtitle">Comparing emission sources and industrial substrate compatibility.</p>
+            </div>
+
+            <!-- 4 Systems Visual Illustration -->
+            <div class="visual-frame" style="margin-bottom: 2.5rem;">
+                <img src="laser-assets/laser_types_comparison.jpg" alt="CO2 Laser vs Fiber Laser vs Diode Laser vs Nd:YAG Solid State Laser" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">CO₂ GAS TUBE • FIBER MODULE • SEMICONDUCTOR DIODE • Nd:YAG SOLID STATE</span>
+                    <span class="caption-text">System Architectures &amp; Substrate Suitability</span>
+                </div>
             </div>
 
             <div class="systems-grid">
@@ -1485,10 +1538,10 @@
                     <div>
                         <div class="sys-num">01 — CO₂ LASER</div>
                         <h3 class="sys-title">CO₂ LASER</h3>
-                        <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Gas discharge tube with optical mirror delivery.</p>
+                        <p style="font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 0.75rem;">CO₂ laser tube + mirrors + focusing head.</p>
                     </div>
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-magenta); margin-bottom: 0.35rem;">TYPICAL MATERIALS:</div>
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-magenta); margin-bottom: 0.35rem;">TYPICAL USE:</div>
                         <div class="sys-materials-list">
                             <span class="sys-mat-pill">ACRYLIC</span>
                             <span class="sys-mat-pill">WOOD</span>
@@ -1504,13 +1557,13 @@
                     <div>
                         <div class="sys-num">02 — FIBER LASER</div>
                         <h3 class="sys-title">FIBER LASER</h3>
-                        <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Solid-state fiber delivery for high reflection resistance.</p>
+                        <p style="font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 0.75rem;">Fiber laser source + focusing head.</p>
                     </div>
                     <div>
-                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-magenta); margin-bottom: 0.35rem;">TYPICAL MATERIALS:</div>
+                        <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-magenta); margin-bottom: 0.35rem;">TYPICAL USE (METALS):</div>
                         <div class="sys-materials-list">
                             <span class="sys-mat-pill">STEEL</span>
-                            <span class="sys-mat-pill">STAINLESS</span>
+                            <span class="sys-mat-pill">STAINLESS STEEL</span>
                             <span class="sys-mat-pill">ALUMINIUM</span>
                             <span class="sys-mat-pill">BRASS</span>
                         </div>
@@ -1522,14 +1575,14 @@
                     <div>
                         <div class="sys-num">03 — DIODE LASER</div>
                         <h3 class="sys-title">DIODE LASER</h3>
-                        <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Compact semiconductor diode modules for prototyping.</p>
+                        <p style="font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 0.75rem;">Compact diode laser module.</p>
                     </div>
                     <div>
                         <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-magenta); margin-bottom: 0.35rem;">TYPICAL USE:</div>
                         <div class="sys-materials-list">
                             <span class="sys-mat-pill">LIGHT MATERIALS</span>
                             <span class="sys-mat-pill">ENGRAVING</span>
-                            <span class="sys-mat-pill">SMALL SCALE</span>
+                            <span class="sys-mat-pill">SMALL-SCALE FABRICATION</span>
                         </div>
                     </div>
                 </div>
@@ -1539,13 +1592,13 @@
                     <div>
                         <div class="sys-num">04 — Nd:YAG</div>
                         <h3 class="sys-title">SOLID-STATE</h3>
-                        <p style="font-size: 0.8rem; color: var(--color-text-secondary);">Crystal solid-state lasers for micro-machining.</p>
+                        <p style="font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 0.75rem;">Solid-state laser system.</p>
                     </div>
                     <div>
                         <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-magenta); margin-bottom: 0.35rem;">TYPICAL USE:</div>
                         <div class="sys-materials-list">
                             <span class="sys-mat-pill">PRECISION INDUSTRIAL</span>
-                            <span class="sys-mat-pill">MICRO-CUTTING</span>
+                            <span class="sys-mat-pill">MICRO-FABRICATION</span>
                         </div>
                     </div>
                 </div>
@@ -1554,7 +1607,7 @@
     </section>
 
     <!-- ==========================================================================
-       06. LASER PROCESSES (3 LARGE PANELS)
+       06. LASER PROCESSES
        ========================================================================== -->
     <section id="processes">
         <div class="container">
@@ -1566,21 +1619,21 @@
             <div class="processes-triad-grid">
                 <!-- 01 Cut -->
                 <div class="process-panel">
-                    <span class="process-panel-badge cut-badge">OPERATION 01</span>
+                    <span class="process-panel-badge cut-badge">01 — CUT</span>
                     <h3 class="process-panel-title">LASER CUT</h3>
                     <p class="process-panel-desc">“Material is separated along the laser path.”</p>
                 </div>
 
                 <!-- 02 Scan / Engrave -->
                 <div class="process-panel">
-                    <span class="process-panel-badge scan-badge">OPERATION 02</span>
+                    <span class="process-panel-badge scan-badge">02 — SCAN / ENGRAVE</span>
                     <h3 class="process-panel-title">LASER SCAN</h3>
                     <p class="process-panel-desc">“The laser selectively marks or removes material from the surface.”</p>
                 </div>
 
                 <!-- 03 Mark -->
                 <div class="process-panel">
-                    <span class="process-panel-badge" style="background: rgba(152, 36, 214, 0.2); color: var(--color-magenta); border: 1px solid var(--badge-border);">OPERATION 03</span>
+                    <span class="process-panel-badge" style="background: rgba(152, 36, 214, 0.2); color: var(--color-magenta); border: 1px solid var(--badge-border);">03 — MARK</span>
                     <h3 class="process-panel-title">LASER MARK</h3>
                     <p class="process-panel-desc">“Surface information is created without fully cutting the material.”</p>
                 </div>
@@ -1589,75 +1642,85 @@
     </section>
 
     <!-- ==========================================================================
-       07. STAGES OF LASER CUTTING (9 STAGES)
+       07. STAGES OF LASER CUTTING (9 STAGES) & 08. MANUFACTURING PROCESS
        ========================================================================== -->
     <section id="stages">
         <div class="container">
             <div class="section-header">
-                <div class="section-tag">Workflow Architecture</div>
+                <div class="section-tag">Workflow Timeline</div>
                 <h2 class="section-title">STAGES OF LASER CUTTING</h2>
+                <p class="section-subtitle">“Laser cutting is a digital manufacturing process in which machine-controlled laser paths transform digital geometry into physical parts or surface patterns.”</p>
+            </div>
+
+            <!-- Stages Timeline Visual -->
+            <div class="visual-frame" style="margin-bottom: 2.5rem;">
+                <img src="laser-assets/laser_stages_timeline.jpg" alt="9 Stages of Laser Cutting Engineering Timeline" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">01 DESIGN → 02 IMAGE → 03 DXF → 04 RDWORKS → 05 CUT/SCAN → 06 PARAMS → 07 PREVIEW → 08 LASER → 09 OUTPUT</span>
+                    <span class="caption-text">Sequential Fabrication Architecture</span>
+                </div>
             </div>
 
             <div class="stages-9-grid">
                 <div class="stage-9-card">
                     <span class="stage-9-num">01</span>
                     <h3 class="stage-9-title">DESIGN</h3>
-                    <span class="stage-9-sub">Digital concept</span>
+                    <span class="stage-9-sub">Digital artwork concept</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">02</span>
                     <h3 class="stage-9-title">IMAGE SELECTION</h3>
-                    <span class="stage-9-sub">Selected artwork</span>
+                    <span class="stage-9-sub">Selected design</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">03</span>
-                    <h3 class="stage-9-title">VECTOR / DXF</h3>
-                    <span class="stage-9-sub">Vector line paths</span>
+                    <h3 class="stage-9-title">VECTOR / DXF PREPARATION</h3>
+                    <span class="stage-9-sub">Vector line drawing</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">04</span>
-                    <h3 class="stage-9-title">RDWORKS IMPORT</h3>
+                    <h3 class="stage-9-title">IMPORT INTO RDWORKS</h3>
                     <span class="stage-9-sub">Laser workspace layout</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">05</span>
                     <h3 class="stage-9-title">ASSIGN CUT / SCAN</h3>
-                    <span class="stage-9-sub">Color-coded layer setup</span>
+                    <span class="stage-9-sub">Different coloured paths</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">06</span>
-                    <h3 class="stage-9-title">SET PARAMETERS</h3>
-                    <span class="stage-9-sub">Speed &amp; power tuning</span>
+                    <h3 class="stage-9-title">SET LASER PARAMETERS</h3>
+                    <span class="stage-9-sub">Speed / power settings</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">07</span>
-                    <h3 class="stage-9-title">PREVIEW PATH</h3>
-                    <span class="stage-9-sub">Toolpath simulation</span>
+                    <h3 class="stage-9-title">PREVIEW / CHECK PATH</h3>
+                    <span class="stage-9-sub">Toolpath verification</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">08</span>
                     <h3 class="stage-9-title">LASER PROCESS</h3>
-                    <span class="stage-9-sub">Machine execution</span>
+                    <span class="stage-9-sub">Machine operating</span>
                 </div>
 
                 <div class="stage-9-card">
                     <span class="stage-9-num">09</span>
                     <h3 class="stage-9-title">FINAL OUTPUT</h3>
-                    <span class="stage-9-sub">Finished physical part</span>
+                    <span class="stage-9-sub">Finished material component</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ==========================================================================
-       09. CUT OR SCAN?
+       09. LASER CUTTING VS LASER SCANNING
        ========================================================================== -->
     <section id="cut-or-scan">
         <div class="container">
@@ -1665,6 +1728,15 @@
                 <div class="section-tag">Key Distinction</div>
                 <h2 class="section-title">CUT OR SCAN?</h2>
                 <p class="section-subtitle">“In RDWorks, different areas of the design can be assigned different operations depending on whether the intention is to cut through the material or scan/engrave its surface.”</p>
+            </div>
+
+            <!-- Cut vs Scan Visual Infographic -->
+            <div class="visual-frame" style="margin-bottom: 2.5rem;">
+                <img src="laser-assets/laser_cut_vs_scan.jpg" alt="Laser Cut vs Laser Scan / Engraving Side-by-Side Diagram" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">CUT: FULL THICKNESS SEPARATION &nbsp;|&nbsp; SCAN: SELECTIVE SURFACE MARKING</span>
+                    <span class="caption-text">Kerf Penetration vs Raster Depth Control</span>
+                </div>
             </div>
 
             <div class="cut-scan-split-grid">
@@ -1676,11 +1748,12 @@
                     </div>
                     <h3 class="cut-scan-title cut-title">LASER CUT</h3>
                     <div class="diagram-ascii-box">
-                        CUT PATH<br>
-                        ████████████████<br>
-                        ↓ THROUGH MATERIAL
+                        CUT<br>
+                        ████████<br>
+                        ↓<br>
+                        THROUGH MATERIAL
                     </div>
-                    <p style="font-size: 0.85rem; color: var(--color-text-secondary);">Laser penetrates through total material thickness to separate outer geometry.</p>
+                    <p style="font-size: 0.85rem; color: var(--color-text-secondary);">Laser travels completely through material to achieve full perimeter separation.</p>
                 </div>
 
                 <!-- Right: SCAN -->
@@ -1691,11 +1764,12 @@
                     </div>
                     <h3 class="cut-scan-title scan-title">LASER SCAN</h3>
                     <div class="diagram-ascii-box">
-                        SCAN RASTER<br>
-                        ░░░░░░░░░░░░░░░░<br>
-                        ↓ SURFACE ONLY
+                        SCAN<br>
+                        ████████<br>
+                        ↓<br>
+                        SURFACE ONLY
                     </div>
-                    <p style="font-size: 0.85rem; color: var(--color-text-secondary);">Laser scans horizontally across the surface to vaporize superficial artwork patterns.</p>
+                    <p style="font-size: 0.85rem; color: var(--color-text-secondary);">Laser travels across the surface, selectively vaporizing superficial artwork.</p>
                 </div>
             </div>
         </div>
@@ -1707,48 +1781,53 @@
     <section id="materials">
         <div class="container">
             <div class="section-header">
-                <div class="section-tag">Substrate Suitability</div>
+                <div class="section-tag">Substrate Matrix</div>
                 <h2 class="section-title">LASER CUTTING MATERIALS</h2>
             </div>
 
             <div class="laser-materials-grid">
                 <div class="laser-mat-card">
-                    <div class="laser-mat-title">ACRYLIC</div>
-                    <div class="laser-mat-cat">Polymer • High Edge Polish</div>
-                </div>
-
-                <div class="laser-mat-card">
                     <div class="laser-mat-title">WOOD / MDF</div>
-                    <div class="laser-mat-cat">Organic • Clean Vaporization</div>
+                    <div class="laser-mat-cat">Organic • Clean Edge</div>
                 </div>
 
                 <div class="laser-mat-card">
                     <div class="laser-mat-title">PLYWOOD</div>
-                    <div class="laser-mat-cat">Sheet • Structural Profiles</div>
+                    <div class="laser-mat-cat">Sheet • Structural</div>
+                </div>
+
+                <div class="laser-mat-card">
+                    <div class="laser-mat-title">ACRYLIC</div>
+                    <div class="laser-mat-cat">Polymer • Polished Kerf</div>
                 </div>
 
                 <div class="laser-mat-card">
                     <div class="laser-mat-title">PAPER &amp; CARD</div>
-                    <div class="laser-mat-cat">Cellulose • Rapid Cutting</div>
+                    <div class="laser-mat-cat">Cellulose • Rapid Cut</div>
                 </div>
 
                 <div class="laser-mat-card">
                     <div class="laser-mat-title">FABRIC</div>
-                    <div class="laser-mat-cat">Textile • Edge Cauterization</div>
+                    <div class="laser-mat-cat">Textile • Sealed Edge</div>
                 </div>
 
                 <div class="laser-mat-card">
                     <div class="laser-mat-title">STEEL &amp; SS</div>
-                    <div class="laser-mat-cat">Metal • Fiber / Industrial</div>
+                    <div class="laser-mat-cat">Metal • Fiber Laser</div>
                 </div>
 
                 <div class="laser-mat-card">
                     <div class="laser-mat-title">ALUMINIUM</div>
-                    <div class="laser-mat-cat">Metal • High Reflectivity</div>
+                    <div class="laser-mat-cat">Metal • High Reflection</div>
+                </div>
+
+                <div class="laser-mat-card">
+                    <div class="laser-mat-title">BRASS</div>
+                    <div class="laser-mat-cat">Metal • Industrial Fiber</div>
                 </div>
             </div>
 
-            <p style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center;">
+            <p style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-muted); text-align: center;">
                 “Material compatibility depends on the laser source, machine power, material thickness and manufacturer guidance.”
             </p>
         </div>
@@ -1760,37 +1839,37 @@
     <section id="parameters">
         <div class="container">
             <div class="section-header">
-                <div class="section-tag">Operational Control</div>
+                <div class="section-tag">Process Control</div>
                 <h2 class="section-title">LASER PARAMETERS</h2>
             </div>
 
             <div class="parameters-control-deck">
                 <div class="param-card">
-                    <span class="param-tag">ENERGY FLUX</span>
+                    <span class="param-tag">ENERGY OUTPUT</span>
                     <h3 class="param-name">POWER</h3>
-                    <p class="param-effect">High power delivers stronger energy for deep cuts; tuned power avoids burning on scans.</p>
+                    <p class="param-effect">Energy delivered by the laser. High power yields stronger material interaction.</p>
                 </div>
 
                 <div class="param-card">
-                    <span class="param-tag">FEED RATE</span>
+                    <span class="param-tag">HEAD VELOCITY</span>
                     <h3 class="param-name">SPEED</h3>
-                    <p class="param-effect">Low speed increases dwell time and energy per unit length; high speed enables light surface rastering.</p>
+                    <p class="param-effect">Movement speed of the laser head. Low speed delivers more energy per unit length.</p>
                 </div>
 
                 <div class="param-card">
-                    <span class="param-tag">OPTICAL SPOT</span>
+                    <span class="param-tag">OPTICAL WAIST</span>
                     <h3 class="param-name">FOCUS</h3>
-                    <p class="param-effect">Correct focal distance achieves smallest spot diameter and narrowest kerf width.</p>
+                    <p class="param-effect">Concentration of the beam. Optimum focal point ensures minimum kerf width.</p>
                 </div>
 
                 <div class="param-card">
-                    <span class="param-tag">CYCLES</span>
+                    <span class="param-tag">CYCLE COUNT</span>
                     <h3 class="param-name">PASSES</h3>
-                    <p class="param-effect">Multiple passes reduce edge scorching when processing thicker composite materials.</p>
+                    <p class="param-effect">Number of times the laser follows the path, preventing scorching on dense materials.</p>
                 </div>
             </div>
 
-            <p style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center;">
+            <p style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-text-muted); text-align: center;">
                 “Correct parameters depend on the laser system, material, thickness and desired result.”
             </p>
         </div>
@@ -1802,131 +1881,136 @@
     <section id="workflow">
         <div class="container">
             <div class="section-header">
-                <div class="section-tag">Laboratory Activity</div>
+                <div class="section-tag">Laboratory Practical Execution</div>
                 <h2 class="section-title">MY LASER CUTTING WORKFLOW</h2>
-                <p class="section-subtitle">“I selected an artwork design, converted the raster image to clean vector DXF geometry, imported it into RDWorks, and assigned distinct Cut and Scan operations.”</p>
+                <p class="section-subtitle">“Step-by-step practical fabrication journey: From image selection to RDWorks layer assignment (Cut + Scan) and physical CO₂ laser processing.”</p>
             </div>
 
-            <!-- Case Study Spotlight (Batman Cut + Scan Combination) -->
+            <!-- Case Study Spotlight: Batman / Hot Wheels Cut + Scan -->
             <div class="rdworks-case-study-box">
                 <div class="case-study-details">
-                    <div class="section-tag" style="margin-bottom: 0;">RDWORKS PRACTICAL CASE STUDY</div>
-                    <h3 class="case-study-title">BATMAN EMBLEM: CUT + SCAN</h3>
+                    <div class="section-tag" style="margin-bottom: 0;">RDWORKS PRACTICAL WORKFLOW</div>
+                    <h3 class="case-study-title">CUT + SCAN COMBINATION</h3>
                     <p class="case-study-quote">
-                        “The outer contour is assigned to CUT (magenta path) for full material separation, while the interior artwork is assigned to SCAN (blue raster) for surface engraving.”
+                        “In RDWorks, I assigned the outer contour to <strong>CUT</strong> (through-material separation) and the internal artwork to <strong>SCAN</strong> (surface engraving).”
                     </p>
 
                     <div class="case-study-tags">
-                        <div class="case-pill"><strong>OUTER PATH:</strong> CUT (Through Separation)</div>
-                        <div class="case-pill"><strong>INNER ARTWORK:</strong> SCAN (Surface Engrave)</div>
-                        <div class="case-pill"><strong>FORMAT:</strong> DXF Vector Geometry</div>
-                        <div class="case-pill"><strong>SOFTWARE:</strong> RDWorks V8</div>
+                        <div class="case-pill"><strong>OUTER BORDER:</strong> CUT (Through Separation)</div>
+                        <div class="case-pill"><strong>INTERNAL GRAPHICS:</strong> SCAN / ENGRAVE (Surface Only)</div>
+                        <div class="case-pill"><strong>GEOMETRY:</strong> DXF Vector Paths</div>
+                        <div class="case-pill"><strong>PARAMETERS:</strong> Speed 100 mm/s • Min/Max Power 30%</div>
                     </div>
                 </div>
 
-                <div class="diagram-ascii-box" style="padding: 2rem; border-color: var(--color-magenta);">
-                    <div style="font-size: 1.1rem; color: var(--color-text-ivory); margin-bottom: 1rem;">COMBINED OPERATION MAPPING</div>
-                    <div style="color: #fb7185; font-weight: bold; margin-bottom: 0.5rem;">[ LAYER 01 — CUT ] Outer Border Contour</div>
-                    <div style="color: #7dd3fc; font-weight: bold; margin-bottom: 1rem;">[ LAYER 02 — SCAN ] Internal Graphic Infill</div>
-                    <div style="font-size: 0.75rem; color: var(--color-text-muted);">RDWorks parameters assigned independently per layer</div>
+                <div class="diagram-ascii-box" style="padding: 1.8rem; border-color: var(--color-magenta);">
+                    <div style="font-size: 1.1rem; color: var(--color-text-ivory); margin-bottom: 0.8rem; font-family: var(--font-display);">RDWORKS LAYER MAPPING</div>
+                    <div style="color: #fb7185; font-weight: bold; margin-bottom: 0.4rem;">[ LAYER: CUT ] Magenta/Black Path → Full Separation</div>
+                    <div style="color: #7dd3fc; font-weight: bold; margin-bottom: 0.8rem;">[ LAYER: SCAN ] Blue Infill → Surface Engraving</div>
+                    <div style="font-size: 0.72rem; color: var(--color-text-muted);">Independent speed &amp; power controls per layer</div>
                 </div>
             </div>
 
-            <!-- Practical Evidence Grid (Evidence 01 to 07) -->
+            <!-- Practical Evidence Grid (Evidence 01 to 07 with Real Evidence & Placeholders) -->
             <div class="section-header" style="margin-top: 4rem; margin-bottom: 1.5rem;" id="evidence">
-                <div class="section-tag">Evidence Documentation</div>
-                <h3 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-text-ivory); text-transform: uppercase;">PRACTICAL EVIDENCE &amp; LOGS</h3>
+                <div class="section-tag">Laboratory Execution Evidence</div>
+                <h3 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--color-text-ivory); text-transform: uppercase;">PRACTICAL EVIDENCE &amp; LOGS</h3>
             </div>
 
             <div class="evidence-gallery-grid">
-                <!-- Evidence 01 -->
+                <!-- Evidence 01: Selected Artwork / Photo -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        <span>EVIDENCE 01</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/batman_vector_dxf.png" alt="Evidence 01: Selected Batman Artwork Geometry" style="object-fit: contain; padding: 1.5rem; background: #fff;">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 01</span>
-                        <div class="evidence-slot-title">Selected Photo / Artwork</div>
-                        <div class="evidence-slot-desc">Original design chosen for laser processing</div>
+                        <span class="evidence-slot-num">EVIDENCE 01 • STEP 01</span>
+                        <div class="evidence-slot-title">01 — Choosing a Photo</div>
+                        <div class="evidence-slot-desc">“I started by selecting the image/design that I wanted to reproduce using the laser-cutting workflow.”</div>
                     </div>
                 </div>
 
-                <!-- Evidence 02 -->
+                <!-- Evidence 02: DXF Vector Preparation -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                        <span>EVIDENCE 02</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/batman_vector_dxf.png" alt="Evidence 02: DXF Vector Outline Preparation" style="object-fit: contain; padding: 1.5rem; background: #fff;">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 02</span>
-                        <div class="evidence-slot-title">DXF / Vector Preparation</div>
-                        <div class="evidence-slot-desc">Raster-to-vector geometry conversion</div>
+                        <span class="evidence-slot-num">EVIDENCE 02 • STEP 02</span>
+                        <div class="evidence-slot-title">02 — Converting to DXF</div>
+                        <div class="evidence-slot-desc">“The selected design was converted/prepared as a DXF file so that the geometry could be used in the laser-design workflow.”</div>
                     </div>
                 </div>
 
-                <!-- Evidence 03 -->
+                <!-- Evidence 03: RDWorks Workspace Import -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
-                        <span>EVIDENCE 03</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/rdworks_interface_workflow.png" alt="Evidence 03: RDWorks Imported Design and Layer Controls" style="object-fit: contain; background: #fff;">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 03</span>
-                        <div class="evidence-slot-title">RDWorks Workspace</div>
-                        <div class="evidence-slot-desc">Imported vector geometry layout</div>
+                        <span class="evidence-slot-num">EVIDENCE 03 • STEP 03</span>
+                        <div class="evidence-slot-title">03 — Importing into RDWorks</div>
+                        <div class="evidence-slot-desc">Imported DXF vector geometry into RDWorks V8 workspace with layer configuration.</div>
                     </div>
                 </div>
 
-                <!-- Evidence 04 -->
+                <!-- Evidence 04: Cut Areas Selected -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-                        <span>EVIDENCE 04</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/rdworks_interface_workflow.png" alt="Evidence 04: Cut Areas Selected in RDWorks" style="object-fit: cover; object-position: 70% 30%;">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 04</span>
-                        <div class="evidence-slot-title">Cut Paths Selected</div>
-                        <div class="evidence-slot-desc">Outer border assigned for separation</div>
+                        <span class="evidence-slot-num">EVIDENCE 04 • STEP 04</span>
+                        <div class="evidence-slot-title">04 — Selecting Areas to Cut</div>
+                        <div class="evidence-slot-desc">“I selected the required paths that needed to be cut through the material.” (Black Layer: Laser Cut)</div>
                     </div>
                 </div>
 
-                <!-- Evidence 05 -->
+                <!-- Evidence 05: Scan Areas Selected -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                        <span>EVIDENCE 05</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/rdworks_interface_workflow.png" alt="Evidence 05: Scan Areas Selected in RDWorks" style="object-fit: cover; object-position: 50% 50%;">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 05</span>
-                        <div class="evidence-slot-title">Scan Areas Selected</div>
-                        <div class="evidence-slot-desc">Surface artwork assigned for rastering</div>
+                        <span class="evidence-slot-num">EVIDENCE 05 • STEP 05</span>
+                        <div class="evidence-slot-title">05 — Selecting Areas to Scan</div>
+                        <div class="evidence-slot-desc">“I assigned the areas intended for surface engraving/scanning separately from the paths intended for cutting.” (Blue Layer: Laser Scan)</div>
                     </div>
                 </div>
 
-                <!-- Evidence 06 -->
+                <!-- Evidence 06: CAD Parameters -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
-                        <span>EVIDENCE 06</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/ayesha_rdworks_cad.png" alt="Evidence 06: Ayesha preparing CAD geometry in RDWorks">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 06</span>
-                        <div class="evidence-slot-title">Layer Parameters</div>
-                        <div class="evidence-slot-desc">Power, speed, and processing sequence</div>
+                        <span class="evidence-slot-num">EVIDENCE 06 • STEP 06 — 07</span>
+                        <div class="evidence-slot-title">06 — RDWorks Parameters &amp; CAD</div>
+                        <div class="evidence-slot-desc">Calibrating toolpaths, layer speed (100 mm/s), and power (30%) at workstation.</div>
                     </div>
                 </div>
 
-                <!-- Evidence 07 -->
+                <!-- Evidence 07: Laser Machine Fabrication Execution -->
                 <div class="evidence-slot-card">
-                    <div class="evidence-preview-placeholder">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                        <span>EVIDENCE 07</span>
+                    <div class="evidence-img-wrap">
+                        <img src="laser-assets/ayesha_laser_machine.png" alt="Evidence 07: Ayesha operating the CO2 Laser Cutter at FabLab">
                     </div>
                     <div class="evidence-slot-meta">
-                        <span class="evidence-slot-num">STEP 07</span>
-                        <div class="evidence-slot-title">Final Physical Output</div>
-                        <div class="evidence-slot-desc">Finished laser-cut &amp; engraved component</div>
+                        <span class="evidence-slot-num">EVIDENCE 07 • STEP 08 — 09</span>
+                        <div class="evidence-slot-title">07 — CO₂ Laser Machine Execution</div>
+                        <div class="evidence-slot-desc">Operating the CO₂ laser machine control panel with safety protocols at the FabLab.</div>
+                    </div>
+                </div>
+
+                <!-- Evidence 08: Final Physical Output -->
+                <div class="evidence-slot-card" style="border-color: var(--color-magenta); box-shadow: 0 0 20px rgba(152, 36, 214, 0.25);">
+                    <div class="evidence-img-wrap" style="background: #08030c;">
+                        <img src="laser-assets/final_laser_output.png" alt="Evidence 08: Real Physical Laser Cut and Engraved Acrylic Hot Wheels and Batman Keychains" style="object-fit: contain; padding: 0.5rem;">
+                    </div>
+                    <div class="evidence-slot-meta">
+                        <span class="evidence-slot-num" style="color: #fb7185;">EVIDENCE 08 • STEP 10 (FINAL)</span>
+                        <div class="evidence-slot-title">08 — Physical Acrylic Cut &amp; Engrave</div>
+                        <div class="evidence-slot-desc">Finished laser-cut &amp; raster-engraved black acrylic keychains (Batman &amp; Hot Wheels).</div>
                     </div>
                 </div>
             </div>
@@ -1939,52 +2023,52 @@
     <section id="tradeoffs">
         <div class="container">
             <div class="section-header">
-                <div class="section-tag">Engineering Trade-Offs</div>
+                <div class="section-tag">Engineering Analysis</div>
                 <h2 class="section-title">ADVANTAGES &amp; LIMITATIONS</h2>
             </div>
 
-            <!-- Advantages Tiles -->
+            <!-- Advantages Grid -->
             <div class="adv-grid">
-                <div class="adv-tile">✓ PRECISION</div>
-                <div class="adv-tile">✓ FAST PROCESSING</div>
-                <div class="adv-tile">✓ REPEATABILITY</div>
-                <div class="adv-tile">✓ COMPLEX PROFILES</div>
-                <div class="adv-tile">✓ DIGITAL WORKFLOW</div>
-                <div class="adv-tile">✓ ZERO TOOL CONTACT</div>
-                <div class="adv-tile">✓ CUSTOMISATION</div>
-                <div class="adv-tile">✓ CLEAN VECTOR PATHS</div>
+                <div class="adv-tile">PRECISION</div>
+                <div class="adv-tile">FAST PROCESSING</div>
+                <div class="adv-tile">REPEATABILITY</div>
+                <div class="adv-tile">COMPLEX PROFILES</div>
+                <div class="adv-tile">DIGITAL WORKFLOW</div>
+                <div class="adv-tile">LOW TOOL CONTACT</div>
+                <div class="adv-tile">CUSTOMISATION</div>
+                <div class="adv-tile">CLEAN VECTOR PROCESS</div>
             </div>
 
-            <!-- Limitations Grid -->
+            <!-- Limitations Callouts -->
             <div class="limit-grid">
                 <div class="limit-tile">
                     <div class="limit-title">MATERIAL DEPENDENCY</div>
-                    <p class="limit-text">Laser performance depends on material absorption properties.</p>
+                    <p class="limit-text">Laser performance depends on the material absorption.</p>
                 </div>
 
                 <div class="limit-tile">
                     <div class="limit-title">THICKNESS</div>
-                    <p class="limit-text">Maximum thickness depends on machine capability and optics.</p>
+                    <p class="limit-text">Maximum thickness depends on machine capability and material.</p>
                 </div>
 
                 <div class="limit-tile">
                     <div class="limit-title">HEAT EFFECT</div>
-                    <p class="limit-text">Localized heat can cause slight thermal discoloration on edges.</p>
+                    <p class="limit-text">Heat can affect the processed area edge.</p>
                 </div>
 
                 <div class="limit-tile">
                     <div class="limit-title">KERF</div>
-                    <p class="limit-text">Material width removed along the laser path must be compensated.</p>
+                    <p class="limit-text">Material is removed along the laser path.</p>
                 </div>
 
                 <div class="limit-tile">
                     <div class="limit-title">FOCUS</div>
-                    <p class="limit-text">Incorrect focal distance reduces power density and cut sharpness.</p>
+                    <p class="limit-text">Incorrect focus can reduce process quality.</p>
                 </div>
 
                 <div class="limit-tile">
                     <div class="limit-title">PARAMETERS</div>
-                    <p class="limit-text">Speed and power require calibrated tuning per substrate.</p>
+                    <p class="limit-text">Speed and power require appropriate calibrated settings.</p>
                 </div>
             </div>
         </div>
@@ -2003,27 +2087,31 @@
             <div class="safety-panel">
                 <div class="safety-badge-col">
                     <div class="safety-icon-large">⚠</div>
-                    <div style="font-family: var(--font-display); font-size: 1.6rem; color: #fb7185; letter-spacing: 1px;">LASER RADIATION</div>
-                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">CLASS 4 ENCLOSED SYSTEM</div>
+                    <div style="font-family: var(--font-display); font-size: 1.6rem; color: #fb7185; letter-spacing: 1px;">LASER HAZARD</div>
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">CLASS 4 ENCLOSED OPERATION</div>
                 </div>
 
                 <div>
                     <ul class="safety-rules-list">
                         <li class="safety-rule-item">
                             <span class="icon">✓</span>
-                            <span><strong>PROTECTIVE ENCLOSURE:</strong> Interlocked shielding during active beam operation.</span>
+                            <span><strong>PROTECTIVE ENCLOSURE:</strong> Interlocked casing prevents laser beam exposure.</span>
                         </li>
                         <li class="safety-rule-item">
                             <span class="icon">✓</span>
-                            <span><strong>APPROPRIATE VENTILATION:</strong> Active exhaust extraction for fumes and particulate.</span>
+                            <span><strong>CONTROLLED OPERATION:</strong> Calibrated laser settings to prevent workpiece flare-up.</span>
                         </li>
                         <li class="safety-rule-item">
                             <span class="icon">✓</span>
-                            <span><strong>MATERIAL COMPATIBILITY:</strong> Never process hazardous substrates (e.g. PVC, vinyl).</span>
+                            <span><strong>APPROPRIATE VENTILATION:</strong> Forced fume extraction for smoke and particulates.</span>
                         </li>
                         <li class="safety-rule-item">
                             <span class="icon">✓</span>
-                            <span><strong>SUPERVISED OPERATION:</strong> Active monitoring to prevent material flare-up.</span>
+                            <span><strong>MATERIAL COMPATIBILITY:</strong> Never cut hazardous materials (e.g., PVC/chlorine).</span>
+                        </li>
+                        <li class="safety-rule-item">
+                            <span class="icon">✓</span>
+                            <span><strong>SUPERVISED OPERATION:</strong> Active technician presence throughout processing.</span>
                         </li>
                     </ul>
 
@@ -2036,10 +2124,24 @@
     </section>
 
     <!-- ==========================================================================
-       24. FINAL STATEMENT
+       23. FINAL PROCESS VISUAL & 24. FINAL STATEMENT
        ========================================================================== -->
     <section id="conclusion">
         <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <div class="section-tag" style="justify-content: center;">Complete Fabrication Synthesis</div>
+                <h2 class="section-title">DIGITAL DESIGN TO PHYSICAL REALIZATION</h2>
+            </div>
+
+            <!-- Final Master Physical Realization Visual -->
+            <div class="visual-frame" style="background: rgba(14, 6, 18, 0.95); padding: 1rem; border-color: var(--color-magenta); box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 30px rgba(152, 36, 214, 0.35);">
+                <img src="laser-assets/final_laser_output.png" alt="Physical Laser Cut & Engraved Acrylic Output: Hot Wheels & Batman Keychains" style="max-height: 600px; width: 100%; object-fit: contain; background: #08030c; border-radius: 12px;" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">PHYSICAL FABRICATED OUTPUT • ACRYLIC CUT + SCAN</span>
+                    <span class="caption-text">Separated Outer Contours (CUT) with Precision Vector Engraved Typography (SCAN)</span>
+                </div>
+            </div>
+
             <div class="final-quote-block">
                 <h3 class="final-cream-statement">
                     FROM DIGITAL DESIGN<br>
