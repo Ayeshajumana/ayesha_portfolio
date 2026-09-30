@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ProtoSem Week 06 Engineering Portfolio - 3D Printing Basics: Additive manufacturing technologies, processes, Bambu Lab H2S specifications, and Crab Model practical fabrication workflow.">
+    <title>Week 06 — 3D Printing Basics | ProtoSem Engineering Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           DESIGN SYSTEM & THEME TOKENS (MATCHING PROTOSEM PORTFOLIO STYLE)
+           ========================================================================== */
+        :root {
+            /* Theme Colors */
+            --bg-deep: #0e0712;
+            --bg-color: #1a0e1c;
+            --bg-card: rgba(36, 16, 45, 0.75);
+            --bg-card-hover: rgba(55, 16, 58, 0.9);
+            --bg-panel: #24102d;
+            
+            /* Accent & Neon */
+            --color-purple-bright: #9824d6;
+            --color-purple-neon: #c026d3;
+            --color-magenta: #e879f9;
+            --color-purple-glow: rgba(152, 36, 214, 0.35);
+            --color-purple-border: rgba(152, 36, 214, 0.28);
+            --color-purple-dark: #37103a;
+
+            /* Typography Colors */
+            --color-text-main: #f0ead6;
+            --color-text-ivory: #fdf8e9;
+            --color-text-secondary: #a69da9;
+            --color-text-muted: #857a8a;
+            
+            /* Badges & Accents */
+            --badge-bg: rgba(152, 36, 214, 0.18);
+            --badge-border: rgba(192, 38, 211, 0.4);
+
+            /* Typography Stacks */
+            --font-display: 'Anton', sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Layout */
+            --max-width: 1320px;
+            --section-spacing: 6.5rem;
+        }
+
+        /* Global Reset */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-deep);
+            color: var(--color-text-main);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: radial-gradient(circle at 50% 0%, #281030 0%, #150918 50%, #0c0510 100%);
+            min-height: 100vh;
+            line-height: 1.5;
+            overflow-x: hidden;
+            color: var(--color-text-main);
+        }
+
+        /* Subtle grid background overlay */
+        .bg-grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(152, 36, 214, 0.035) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(152, 36, 214, 0.035) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(14, 7, 18, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--color-purple-border);
+            padding: 1.25rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--color-text-main);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .nav-brand .brand-badge {
+            background: var(--color-purple-bright);
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.75rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-magenta);
+        }
+
+        .back-to-portfolio {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(152, 36, 214, 0.15);
+            border: 1px solid var(--color-purple-border);
+            color: var(--color-text-ivory) !important;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-portfolio:hover {
+            background: var(--color-purple-bright);
+            border-color: var(--color-magenta);
+            box-shadow: 0 0 15px rgba(152, 36, 214, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Container Layout */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Wrappers */
+        section {
+            padding: var(--section-spacing) 0;
+            position: relative;
+            border-bottom: 1px solid rgba(152, 36, 214, 0.12);
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--color-magenta);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-tag::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-purple-bright);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-purple-bright);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 4vw, 3.8rem);
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.05;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--color-text-secondary);
+            font-size: 1.15rem;
+            max-width: 780px;
+        }
+
+        /* Visual Media Frame */
+        .visual-frame {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--color-purple-border);
+            background: var(--bg-card);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(152, 36, 214, 0.1);
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .visual-frame:hover {
+            border-color: rgba(192, 38, 211, 0.5);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(152, 36, 214, 0.25);
+        }
+
+        .visual-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .visual-caption-bar {
+            padding: 1rem 1.5rem;
+            background: rgba(20, 9, 26, 0.95);
+            border-top: 1px solid rgba(152, 36, 214, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .caption-title {
+            font-family: var(--font-mono);
+            color: var(--color-magenta);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .caption-text {
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================================================
+           1. HERO SECTION
+           ========================================================================== */
+        .hero-section {
+            padding: 5rem 0 6rem 0;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-top-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(152, 36, 214, 0.15);
+            border: 1px solid var(--badge-border);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--color-magenta);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 8vw, 7.5rem);
+            color: var(--color-text-ivory);
+            line-height: 0.92;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(152, 36, 214, 0.3);
+        }
+
+        .hero-subheading {
+            font-family: var(--font-mono);
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--color-magenta);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero-intro {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 800px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .hero-visual-wrapper {
+            margin-top: 1rem;
+        }
+
+        /* Quick Flow Bar */
+        .process-quick-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .quick-step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-num-pill {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--color-purple-bright);
+            background: rgba(152, 36, 214, 0.15);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--color-purple-border);
+        }
+
+        .step-info-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--color-text-ivory);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .step-info-desc {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+            font-family: var(--font-mono);
+        }
+
+        /* ==========================================================================
+           2. WHAT IS 3D PRINTING? (COMPARISON)
+           ========================================================================== */
+        .definition-highlight-box {
+            background: linear-gradient(135deg, rgba(74, 21, 75, 0.4), rgba(26, 14, 28, 0.8));
+            border-left: 4px solid var(--color-purple-bright);
+            border-radius: 0 12px 12px 0;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .definition-highlight-text {
+            font-size: 1.3rem;
+            color: var(--color-text-ivory);
+            font-family: var(--font-serif);
+            line-height: 1.6;
+        }
+
+        .comparison-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .comp-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--color-purple-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comp-card.additive {
+            border-color: rgba(192, 38, 211, 0.5);
+            box-shadow: 0 0 30px rgba(152, 36, 214, 0.15);
+        }
+
+        .comp-card-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1.25rem;
+        }
+
+        .comp-card.subtractive .comp-card-badge {
+            background: rgba(166, 157, 169, 0.15);
+            color: var(--color-text-secondary);
+            border: 1px solid rgba(166, 157, 169, 0.3);
+        }
+
+        .comp-card.additive .comp-card-badge {
+            background: rgba(152, 36, 214, 0.25);
+            color: var(--color-magenta);
+            border: 1px solid var(--badge-border);
+        }
+
+        .comp-card-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .comp-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .comp-flow-node {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(20, 9, 26, 0.7);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-text-main);
+            border: 1px solid rgba(152, 36, 214, 0.15);
+        }
+
+        .comp-flow-node .node-icon {
+            color: var(--color-magenta);
+            font-weight: bold;
+        }
+
+        .comp-flow-arrow {
+            text-align: center;
+            color: var(--color-purple-bright);
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* ==========================================================================
+           3. STAGES OF 3D PRINTING (6 STAGES)
+           ========================================================================== */
+        .stages-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stage-box {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .stage-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-magenta);
+            box-shadow: 0 10px 25px rgba(152, 36, 214, 0.25);
+        }
+
+        .stage-num {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-magenta);
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-icon-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(152, 36, 214, 0.15);
+            border: 1px solid var(--color-purple-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--color-text-ivory);
+        }
+
+        .stage-name {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+        }
+
+        .stage-desc {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+
+        /* ==========================================================================
+           4. TYPES OF 3D PRINTING TECHNOLOGIES (5 TYPES)
+           ========================================================================== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 14px;
+            padding: 1.75rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-purple-bright), var(--color-magenta));
+            opacity: 0.6;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(192, 38, 211, 0.6);
+            box-shadow: 0 12px 30px rgba(152, 36, 214, 0.2);
+        }
+
+        .tech-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tech-index {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-magenta);
+            font-weight: 600;
+        }
+
+        .tech-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .tech-material-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-main);
+            background: rgba(152, 36, 214, 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(152, 36, 214, 0.3);
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .tech-explanation {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            font-family: var(--font-body);
+        }
+
+        /* ==========================================================================
+           5. MANUFACTURING PROCESSES (3 PARADIGMS)
+           ========================================================================== */
+        .mfg-paradigms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.75rem;
+            margin-top: 2.5rem;
+        }
+
+        .mfg-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 16px;
+            padding: 2rem 1.75rem;
+            text-align: center;
+            transition: all 0.35s ease;
+        }
+
+        .mfg-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-magenta);
+            box-shadow: 0 10px 30px rgba(152, 36, 214, 0.2);
+        }
+
+        .mfg-num {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-magenta);
+            margin-bottom: 0.5rem;
+        }
+
+        .mfg-type {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .mfg-action-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-magenta);
+            background: rgba(152, 36, 214, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--badge-border);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* ==========================================================================
+           6. TYPES OF MANUFACTURING PROCESSES (CLASSIFICATION TREE)
+           ========================================================================== */
+        .tree-root-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .tree-root-node {
+            background: var(--color-purple-dark);
+            border: 1px solid var(--color-magenta);
+            padding: 1rem 3rem;
+            border-radius: 12px;
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            color: var(--color-text-ivory);
+            box-shadow: 0 0 25px rgba(152, 36, 214, 0.3);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .tree-branches-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .tree-branch-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 14px;
+            padding: 2rem 1.5rem;
+        }
+
+        .branch-header {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--color-magenta);
+            letter-spacing: 1.5px;
+            text-align: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(152, 36, 214, 0.2);
+            text-transform: uppercase;
+        }
+
+        .branch-items-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .branch-item {
+            background: rgba(20, 9, 26, 0.6);
+            border: 1px solid rgba(152, 36, 214, 0.15);
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--color-text-main);
+            transition: all 0.2s ease;
+        }
+
+        .branch-item:hover {
+            border-color: var(--color-magenta);
+            background: rgba(152, 36, 214, 0.15);
+        }
+
+        .branch-item-icon {
+            color: var(--color-magenta);
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           7. 3D PRINTING ADVANTAGES AND DISADVANTAGES (SPLIT-SCREEN)
+           ========================================================================== */
+        .pros-cons-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .pros-column, .cons-column {
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+            border: 1px solid var(--color-purple-border);
+        }
+
+        .pros-column {
+            border-color: rgba(192, 38, 211, 0.4);
+            box-shadow: 0 0 35px rgba(152, 36, 214, 0.1);
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(152, 36, 214, 0.2);
+        }
+
+        .column-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .pros-title { color: #5eead4; }
+        .cons-title { color: #f472b6; }
+
+        .points-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .point-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(20, 9, 26, 0.7);
+            border: 1px solid rgba(152, 36, 214, 0.15);
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
+        }
+
+        .point-item:hover {
+            transform: translateX(4px);
+            border-color: var(--color-purple-border);
+        }
+
+        .pros-column .point-item:hover {
+            border-color: #5eead4;
+        }
+
+        .cons-column .point-item:hover {
+            border-color: #f472b6;
+        }
+
+        .point-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .pros-badge {
+            background: rgba(94, 234, 212, 0.15);
+            color: #5eead4;
+            border: 1px solid rgba(94, 234, 212, 0.4);
+        }
+
+        .cons-badge {
+            background: rgba(244, 114, 182, 0.15);
+            color: #f472b6;
+            border: 1px solid rgba(244, 114, 182, 0.4);
+        }
+
+        /* ==========================================================================
+           8. LIMITATIONS OF 3D PRINTING (8 CALLOUTS)
+           ========================================================================== */
+        .limitations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .limit-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 14px;
+            padding: 1.75rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .limit-card:hover {
+            border-color: var(--color-magenta);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(152, 36, 214, 0.2);
+        }
+
+        .limit-index {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-magenta);
+            font-weight: 600;
+        }
+
+        .limit-name {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .limit-desc {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            line-height: 1.45;
+        }
+
+        /* ==========================================================================
+           9. OUR 3D PRINTER (BAMBU LAB H2S SPECIFICATIONS)
+           ========================================================================== */
+        .printer-spec-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .spec-tile {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 14px;
+            padding: 1.5rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .spec-tile:hover {
+            border-color: var(--color-magenta);
+            box-shadow: 0 0 20px rgba(152, 36, 214, 0.2);
+        }
+
+        .spec-tile.highlight {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(74, 21, 75, 0.6), rgba(36, 16, 45, 0.8));
+            border-color: var(--color-magenta);
+        }
+
+        .spec-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--color-text-muted);
+        }
+
+        .spec-value {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+
+        .spec-unit {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-magenta);
+        }
+
+        .spec-source-note {
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--color-text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================================================
+           10. MATERIAL REFERENCE (10 MATERIALS TABLE/GRID)
+           ========================================================================== */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .mat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            transition: all 0.3s ease;
+        }
+
+        .mat-card:hover {
+            border-color: var(--color-magenta);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(152, 36, 214, 0.2);
+        }
+
+        .mat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mat-name {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+        }
+
+        .mat-type-badge {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(152, 36, 214, 0.2);
+            color: var(--color-magenta);
+        }
+
+        .mat-temp-row {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 4px 0;
+            border-top: 1px solid rgba(152, 36, 214, 0.1);
+        }
+
+        .mat-temp-label {
+            color: var(--color-text-muted);
+        }
+
+        .mat-temp-val {
+            color: var(--color-text-main);
+            font-weight: 600;
+        }
+
+        .material-disclaimer {
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==========================================================================
+           11. CRAB MODEL — PRACTICAL ACTIVITY & WORKFLOW
+           ========================================================================== */
+        .workflow-timeline {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+
+        .workflow-step {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 14px;
+            padding: 1.5rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step.active-step {
+            border-color: var(--color-magenta);
+            box-shadow: 0 0 25px rgba(152, 36, 214, 0.25);
+            background: rgba(55, 16, 58, 0.7);
+        }
+
+        .wf-num {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-magenta);
+            font-weight: 600;
+        }
+
+        .wf-title {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .wf-statement {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            line-height: 1.45;
+        }
+
+        /* Crab Model Spotlight Box */
+        .crab-model-spotlight {
+            margin-top: 3rem;
+            background: linear-gradient(135deg, rgba(55, 16, 58, 0.8), rgba(20, 9, 26, 0.95));
+            border: 1px solid var(--color-magenta);
+            border-radius: 18px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 35px rgba(152, 36, 214, 0.25);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .crab-preview-frame {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(192, 38, 211, 0.4);
+            background: #14091a;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .crab-preview-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .crab-preview-frame:hover img {
+            transform: scale(1.03);
+        }
+
+        .crab-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(152, 36, 214, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .crab-details-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .crab-title {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 1.5px;
+            line-height: 1.1;
+        }
+
+        .crab-desc-highlight {
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            color: var(--color-magenta);
+            line-height: 1.5;
+        }
+
+        .crab-specs-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .crab-pill {
+            background: rgba(20, 9, 26, 0.8);
+            border: 1px solid var(--color-purple-border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text-main);
+        }
+
+        .crab-pill strong {
+            color: var(--color-magenta);
+        }
+
+        /* Practical Workshop Evidence (Clean photo showcase) */
+        .practical-evidence-section {
+            margin-top: 3rem;
+            background: rgba(20, 9, 26, 0.7);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 18px;
+            padding: 2.5rem 2rem;
+        }
+
+        .evidence-header {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-magenta);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .evidence-header::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--color-purple-bright);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--color-purple-bright);
+        }
+
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.75rem;
+        }
+
+        .evidence-card {
+            background: var(--bg-card);
+            border: 1px solid var(--color-purple-border);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s ease;
+        }
+
+        .evidence-card:hover {
+            border-color: var(--color-magenta);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(152, 36, 214, 0.25);
+        }
+
+        .evidence-img-box {
+            width: 100%;
+            height: 240px;
+            background: #150918;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .evidence-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .evidence-card:hover .evidence-img-box img {
+            transform: scale(1.06);
+        }
+
+        .evidence-meta {
+            padding: 1.25rem;
+            background: rgba(14, 7, 18, 0.95);
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .evidence-step-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--color-magenta);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .evidence-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            color: var(--color-text-ivory);
+            letter-spacing: 0.5px;
+        }
+
+        .evidence-telemetry {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--color-text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* ==========================================================================
+           12. WHY STL? (TRIANGULATED MESH EXPLANATION)
+           ========================================================================== */
+        .stl-concept-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .stl-explanation-card {
+            background: var(--bg-card);
+            border-left: 4px solid var(--color-magenta);
+            border-radius: 0 16px 16px 0;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            border-top: 1px solid var(--color-purple-border);
+            border-right: 1px solid var(--color-purple-border);
+            border-bottom: 1px solid var(--color-purple-border);
+        }
+
+        .stl-main-quote {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            color: var(--color-text-ivory);
+            line-height: 1.5;
+        }
+
+        .stl-step-sequence {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(20, 9, 26, 0.8);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(152, 36, 214, 0.2);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+        }
+
+        .stl-seq-item {
+            color: var(--color-text-main);
+            font-weight: 600;
+        }
+
+        .stl-seq-arrow {
+            color: var(--color-magenta);
+        }
+
+        .stl-note-text {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           13. FINAL CINEMATIC VISUAL & CONCLUSION
+           ========================================================================== */
+        .final-hero-banner {
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .final-quote-block {
+            text-align: center;
+            margin-top: 3.5rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, rgba(74, 21, 75, 0.3) 0%, rgba(20, 9, 26, 0.7) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--color-purple-border);
+        }
+
+        .final-cream-statement {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4.5vw, 3.8rem);
+            color: var(--color-text-ivory);
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 30px rgba(152, 36, 214, 0.3);
+        }
+
+        .final-meta-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            color: var(--color-magenta);
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--color-purple-border);
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            background: #0e0712;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-nav a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--color-magenta);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .stages-flow-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .printer-spec-layout, .stl-concept-grid, .crab-model-spotlight {
+                grid-template-columns: 1fr;
+            }
+            .limitations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .workflow-timeline {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 1rem 1.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .comparison-cards-grid, .pros-cons-container, .mfg-paradigms-grid, .tree-branches-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-quick-bar {
+                grid-template-columns: 1fr;
+            }
+            .stages-flow-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .limitations-grid {
+                grid-template-columns: 1fr;
+            }
+            .workflow-timeline {
+                grid-template-columns: 1fr;
+            }
+            .evidence-grid {
+                grid-template-columns: 1fr;
+            }
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+            .spec-tile.highlight {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Grid Pattern -->
+    <div class="bg-grid-overlay"></div>
+
+    <!-- Top Sticky Header -->
+    <header class="top-nav">
+        <a href="index.html" class="nav-brand">
+            <span class="brand-badge">PROTOSEM</span>
+            <span>WEEK 06 PORTFOLIO</span>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#what-is-3d-printing">Concepts</a></li>
+            <li><a href="#stages">Stages</a></li>
+            <li><a href="#technologies">Technologies</a></li>
+            <li><a href="#manufacturing">Manufacturing</a></li>
+            <li><a href="#comparison">Pros & Cons</a></li>
+            <li><a href="#printer">Bambu Lab H2S</a></li>
+            <li><a href="#materials">Materials</a></li>
+            <li><a href="#practical">Crab Model</a></li>
+            <li><a href="#why-stl">STL</a></li>
+            <li><a href="index.html#journey" class="back-to-portfolio">← Passport</a></li>
+        </ul>
+    </header>
+
+    <!-- ==========================================================================
+       SECTION 1: HERO SECTION
+       ========================================================================== -->
+    <section class="hero-section" id="hero">
+        <div class="container">
+            <div class="hero-top-badge">
+                <span>✦ PROTOSEM ENGINEERING PORTFOLIO</span>
+                <span>•</span>
+                <span>WEEK 06</span>
+            </div>
+
+            <h1 class="hero-title">3D PRINTING BASICS</h1>
+            <div class="hero-subheading">FROM DIGITAL MODEL TO PHYSICAL OBJECT</div>
+
+            <p class="hero-intro">
+                “An introduction to additive manufacturing, printing technologies, manufacturing processes and a practical 3D-printing workflow.”
+            </p>
+
+            <div class="hero-visual-wrapper">
+                <div class="visual-frame">
+                    <img src="week6-assets/hero_3d_pipeline.jpg" alt="3D Printing Pipeline: Digital Geometry to Layer Slicing to Physical Component" loading="eager">
+                    <div class="visual-caption-bar">
+                        <span class="caption-title">01 — DIGITAL GEOMETRY → 02 — SLICING TOOLPATH → 03 — PHYSICAL FABRICATION</span>
+                        <span class="caption-text">High-precision additive manufacturing lifecycle</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-quick-bar">
+                <div class="quick-step-card">
+                    <div class="step-num-pill">01</div>
+                    <div>
+                        <div class="step-info-title">DIGITAL 3D MODEL</div>
+                        <div class="step-info-desc">Parametric CAD / Mesh</div>
+                    </div>
+                </div>
+
+                <div class="quick-step-card">
+                    <div class="step-num-pill">02</div>
+                    <div>
+                        <div class="step-info-title">3D PRINTING PROCESS</div>
+                        <div class="step-info-desc">Layer-by-layer deposition</div>
+                    </div>
+                </div>
+
+                <div class="quick-step-card">
+                    <div class="step-num-pill">03</div>
+                    <div>
+                        <div class="step-info-title">PHYSICAL OBJECT</div>
+                        <div class="step-info-desc">Functional prototype</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 2: WHAT IS 3D PRINTING?
+       ========================================================================== -->
+    <section id="what-is-3d-printing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Core Concept &amp; Paradigm</div>
+                <h2 class="section-title">WHAT IS 3D PRINTING?</h2>
+            </div>
+
+            <div class="definition-highlight-box">
+                <p class="definition-highlight-text">
+                    “3D printing is an additive manufacturing process in which a physical object is built layer by layer from digital geometry.”
+                </p>
+            </div>
+
+            <div class="visual-frame">
+                <img src="week6-assets/what_is_3d_print.jpg" alt="Visual Comparison: Traditional Subtractive Manufacturing vs Additive 3D Printing" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">PARADIGM COMPARISON: SUBTRACTIVE VS ADDITIVE</span>
+                    <span class="caption-text">Material removal vs layer-by-layer material accretion</span>
+                </div>
+            </div>
+
+            <!-- Comparison Cards Flow -->
+            <div class="comparison-cards-grid">
+                <!-- Subtractive Card -->
+                <div class="comp-card subtractive">
+                    <span class="comp-card-badge">CONVENTIONAL APPROACH</span>
+                    <h3 class="comp-card-title">TRADITIONAL MANUFACTURING</h3>
+                    <div class="comp-flow">
+                        <div class="comp-flow-node">
+                            <span class="node-icon">01</span>
+                            <span>SOLID MATERIAL</span>
+                        </div>
+                        <div class="comp-flow-arrow">↓</div>
+                        <div class="comp-flow-node">
+                            <span class="node-icon">02</span>
+                            <span>MATERIAL REMOVED</span>
+                        </div>
+                        <div class="comp-flow-arrow">↓</div>
+                        <div class="comp-flow-node">
+                            <span class="node-icon">03</span>
+                            <span>FINAL PART</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additive Card -->
+                <div class="comp-card additive">
+                    <span class="comp-card-badge">ADDITIVE APPROACH</span>
+                    <h3 class="comp-card-title">3D PRINTING</h3>
+                    <div class="comp-flow">
+                        <div class="comp-flow-node">
+                            <span class="node-icon">01</span>
+                            <span>DIGITAL MODEL</span>
+                        </div>
+                        <div class="comp-flow-arrow">↓</div>
+                        <div class="comp-flow-node">
+                            <span class="node-icon">02</span>
+                            <span>MATERIAL ADDED</span>
+                        </div>
+                        <div class="comp-flow-arrow">↓</div>
+                        <div class="comp-flow-node">
+                            <span class="node-icon">03</span>
+                            <span>FINAL PART</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 3: STAGES OF 3D PRINTING
+       ========================================================================== -->
+    <section id="stages">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">End-to-End Workflow</div>
+                <h2 class="section-title">STAGES OF 3D PRINTING</h2>
+                <p class="section-subtitle">The six disciplined engineering phases that bridge digital conceptualization with physical component realization.</p>
+            </div>
+
+            <div class="visual-frame">
+                <img src="week6-assets/stages_3d_timeline.jpg" alt="6 Stages of 3D Printing Visual Timeline Diagram" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">THE 6-PHASE ADDITIVE FABRICATION PIPELINE</span>
+                    <span class="caption-text">Design → 3D Model → STL Mesh → Print Prep → Printing → Finished Part</span>
+                </div>
+            </div>
+
+            <!-- 6 Stages Flow Grid -->
+            <div class="stages-flow-grid">
+                <!-- 01 Design -->
+                <div class="stage-box">
+                    <div class="stage-num">STAGE 01</div>
+                    <div class="stage-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </div>
+                    <div class="stage-name">DESIGN</div>
+                    <div class="stage-desc">Digital concept</div>
+                </div>
+
+                <!-- 02 3D Model -->
+                <div class="stage-box">
+                    <div class="stage-num">STAGE 02</div>
+                    <div class="stage-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    </div>
+                    <div class="stage-name">3D MODEL</div>
+                    <div class="stage-desc">3D geometry</div>
+                </div>
+
+                <!-- 03 File Export -->
+                <div class="stage-box">
+                    <div class="stage-num">STAGE 03</div>
+                    <div class="stage-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <div class="stage-name">FILE EXPORT</div>
+                    <div class="stage-desc">STL mesh</div>
+                </div>
+
+                <!-- 04 Print Preparation -->
+                <div class="stage-box">
+                    <div class="stage-num">STAGE 04</div>
+                    <div class="stage-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div class="stage-name">PRINT PREP</div>
+                    <div class="stage-desc">Model positioned for printing</div>
+                </div>
+
+                <!-- 05 Printing -->
+                <div class="stage-box">
+                    <div class="stage-num">STAGE 05</div>
+                    <div class="stage-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    </div>
+                    <div class="stage-name">PRINTING</div>
+                    <div class="stage-desc">Nozzle depositing material</div>
+                </div>
+
+                <!-- 06 Finished Part -->
+                <div class="stage-box">
+                    <div class="stage-num">STAGE 06</div>
+                    <div class="stage-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="stage-name">FINISHED PART</div>
+                    <div class="stage-desc">Physical component</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 4: TYPES OF 3D PRINTING TECHNOLOGIES
+       ========================================================================== -->
+    <section id="technologies">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Technology Classification</div>
+                <h2 class="section-title">TYPES OF 3D PRINTING TECHNOLOGIES</h2>
+                <p class="section-subtitle">The primary digital fabrication mechanisms across polymer, photopolymer, powder, and metallic systems.</p>
+            </div>
+
+            <div class="visual-frame">
+                <img src="week6-assets/tech_5types.jpg" alt="5 Types of 3D Printing Technologies Infographic" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">DIGITAL FABRICATION TAXONOMY</span>
+                    <span class="caption-text">FDM/FFF • SLA • SLS • SLM/DMLS • DED</span>
+                </div>
+            </div>
+
+            <!-- 5 Technologies Cards Grid -->
+            <div class="tech-grid">
+                <!-- 01 FDM/FFF -->
+                <div class="tech-card">
+                    <div>
+                        <div class="tech-header">
+                            <span class="tech-index">01</span>
+                            <span class="tech-material-tag">THERMOPLASTIC FILAMENT</span>
+                        </div>
+                        <h3 class="tech-name">FDM / FFF</h3>
+                    </div>
+                    <p class="tech-explanation">
+                        “Melted filament is deposited layer by layer.”
+                    </p>
+                </div>
+
+                <!-- 02 SLA -->
+                <div class="tech-card">
+                    <div>
+                        <div class="tech-header">
+                            <span class="tech-index">02</span>
+                            <span class="tech-material-tag">PHOTOPOLYMER RESIN</span>
+                        </div>
+                        <h3 class="tech-name">SLA</h3>
+                    </div>
+                    <p class="tech-explanation">
+                        “Liquid resin is selectively cured using light.”
+                    </p>
+                </div>
+
+                <!-- 03 SLS -->
+                <div class="tech-card">
+                    <div>
+                        <div class="tech-header">
+                            <span class="tech-index">03</span>
+                            <span class="tech-material-tag">POLYMER POWDER</span>
+                        </div>
+                        <h3 class="tech-name">SLS</h3>
+                    </div>
+                    <p class="tech-explanation">
+                        “A laser selectively sinters powdered material.”
+                    </p>
+                </div>
+
+                <!-- 04 SLM / DMLS -->
+                <div class="tech-card">
+                    <div>
+                        <div class="tech-header">
+                            <span class="tech-index">04</span>
+                            <span class="tech-material-tag">METAL POWDER</span>
+                        </div>
+                        <h3 class="tech-name">SLM / DMLS</h3>
+                    </div>
+                    <p class="tech-explanation">
+                        “Metal powder is selectively fused using a high-energy source.”
+                    </p>
+                </div>
+
+                <!-- 05 DED -->
+                <div class="tech-card">
+                    <div>
+                        <div class="tech-header">
+                            <span class="tech-index">05</span>
+                            <span class="tech-material-tag">METAL POWDER / WIRE</span>
+                        </div>
+                        <h3 class="tech-name">DED</h3>
+                    </div>
+                    <p class="tech-explanation">
+                        “Material is deposited directly onto a component.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 5: MANUFACTURING PROCESSES (3 PARADIGMS)
+       ========================================================================== -->
+    <section id="manufacturing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Fundamental Paradigms</div>
+                <h2 class="section-title">MANUFACTURING PROCESSES</h2>
+                <p class="section-subtitle">How raw materials are transformed into engineered components: Addition, Subtraction, and Formation.</p>
+            </div>
+
+            <div class="visual-frame">
+                <img src="week6-assets/manufacturing_3types.jpg" alt="3 Manufacturing Paradigms: Additive, Subtractive, Formative" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">3 FUNDAMENTAL ENGINEERING FABRICATION PARADIGMS</span>
+                    <span class="caption-text">Additive (Added) • Subtractive (Removed) • Formative (Reshaped)</span>
+                </div>
+            </div>
+
+            <!-- 3 Paradigms Grid -->
+            <div class="mfg-paradigms-grid">
+                <!-- 01 Additive -->
+                <div class="mfg-card">
+                    <div class="mfg-num">PARADIGM 01</div>
+                    <h3 class="mfg-type">ADDITIVE</h3>
+                    <div class="mfg-action-badge">“MATERIAL ADDED”</div>
+                </div>
+
+                <!-- 02 Subtractive -->
+                <div class="mfg-card">
+                    <div class="mfg-num">PARADIGM 02</div>
+                    <h3 class="mfg-type">SUBTRACTIVE</h3>
+                    <div class="mfg-action-badge">“MATERIAL REMOVED”</div>
+                </div>
+
+                <!-- 03 Formative -->
+                <div class="mfg-card">
+                    <div class="mfg-num">PARADIGM 03</div>
+                    <h3 class="mfg-type">FORMATIVE</h3>
+                    <div class="mfg-action-badge">“MATERIAL RESHAPED”</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 6: TYPES OF MANUFACTURING PROCESSES (CLASSIFICATION)
+       ========================================================================== -->
+    <section id="mfg-types">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Taxonomy &amp; Engineering Taxonomy</div>
+                <h2 class="section-title">TYPES OF MANUFACTURING PROCESSES</h2>
+            </div>
+
+            <div class="tree-root-container">
+                <div class="tree-root-node">MANUFACTURING</div>
+
+                <div class="tree-branches-grid">
+                    <!-- Branch 1: Additive -->
+                    <div class="tree-branch-card">
+                        <div class="branch-header">ADDITIVE</div>
+                        <ul class="branch-items-list">
+                            <li class="branch-item">
+                                <span class="branch-item-icon">✦</span>
+                                <span>3D PRINTING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">✦</span>
+                                <span>FDM</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">✦</span>
+                                <span>SLA</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">✦</span>
+                                <span>SLS</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Branch 2: Subtractive -->
+                    <div class="tree-branch-card">
+                        <div class="branch-header">SUBTRACTIVE</div>
+                        <ul class="branch-items-list">
+                            <li class="branch-item">
+                                <span class="branch-item-icon">❖</span>
+                                <span>CNC MILLING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">❖</span>
+                                <span>TURNING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">❖</span>
+                                <span>DRILLING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">❖</span>
+                                <span>GRINDING</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Branch 3: Formative -->
+                    <div class="tree-branch-card">
+                        <div class="branch-header">FORMATIVE</div>
+                        <ul class="branch-items-list">
+                            <li class="branch-item">
+                                <span class="branch-item-icon">◆</span>
+                                <span>FORGING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">◆</span>
+                                <span>ROLLING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">◆</span>
+                                <span>INJECTION MOULDING</span>
+                            </li>
+                            <li class="branch-item">
+                                <span class="branch-item-icon">◆</span>
+                                <span>PRESSING</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 7: 3D PRINTING ADVANTAGES AND DISADVANTAGES
+       ========================================================================== -->
+    <section id="comparison">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Engineering Trade-Offs</div>
+                <h2 class="section-title">3D PRINTING: ADVANTAGES VS DISADVANTAGES</h2>
+            </div>
+
+            <div class="pros-cons-container">
+                <!-- Advantages Column -->
+                <div class="pros-column">
+                    <div class="column-header">
+                        <div class="point-badge pros-badge">✓</div>
+                        <h3 class="column-title pros-title">ADVANTAGES</h3>
+                    </div>
+
+                    <div class="points-list">
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>RAPID PROTOTYPING</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>DESIGN ITERATION</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>COMPLEX GEOMETRIES</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>CUSTOMISATION</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>LOW-VOLUME PRODUCTION</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>DIGITAL-TO-PHYSICAL WORKFLOW</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge pros-badge">✓</span>
+                            <span>MATERIAL EFFICIENCY IN MANY APPLICATIONS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disadvantages Column -->
+                <div class="cons-column">
+                    <div class="column-header">
+                        <div class="point-badge cons-badge">✕</div>
+                        <h3 class="column-title cons-title">DISADVANTAGES</h3>
+                    </div>
+
+                    <div class="points-list">
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>LONG PRINT TIMES</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>SURFACE FINISH</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>SUPPORT REQUIREMENTS</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>MATERIAL LIMITATIONS</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>LAYER-DEPENDENT PROPERTIES</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>POST-PROCESSING</span>
+                        </div>
+                        <div class="point-item">
+                            <span class="point-badge cons-badge">✕</span>
+                            <span>PRODUCTION SCALE LIMITATIONS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 8: LIMITATIONS OF 3D PRINTING (8 CALLOUTS)
+       ========================================================================== -->
+    <section id="limitations">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Process Constraints</div>
+                <h2 class="section-title">LIMITATIONS OF 3D PRINTING</h2>
+                <p class="section-subtitle">Critical physical, material, and geometric constraints governing additive manufacturing operations.</p>
+            </div>
+
+            <div class="limitations-grid">
+                <!-- 01 Build Volume -->
+                <div class="limit-card">
+                    <div class="limit-index">01</div>
+                    <h3 class="limit-name">BUILD VOLUME</h3>
+                    <p class="limit-desc">Printer dimensions limit the maximum printable size.</p>
+                </div>
+
+                <!-- 02 Material -->
+                <div class="limit-card">
+                    <div class="limit-index">02</div>
+                    <h3 class="limit-name">MATERIAL</h3>
+                    <p class="limit-desc">Different materials have different properties.</p>
+                </div>
+
+                <!-- 03 Orientation -->
+                <div class="limit-card">
+                    <div class="limit-index">03</div>
+                    <h3 class="limit-name">ORIENTATION</h3>
+                    <p class="limit-desc">Orientation affects the printing result.</p>
+                </div>
+
+                <!-- 04 Layer Adhesion -->
+                <div class="limit-card">
+                    <div class="limit-index">04</div>
+                    <h3 class="limit-name">LAYER ADHESION</h3>
+                    <p class="limit-desc">Layer bonding can affect part performance.</p>
+                </div>
+
+                <!-- 05 Supports -->
+                <div class="limit-card">
+                    <div class="limit-index">05</div>
+                    <h3 class="limit-name">SUPPORTS</h3>
+                    <p class="limit-desc">Overhangs may require support structures.</p>
+                </div>
+
+                <!-- 06 Surface Finish -->
+                <div class="limit-card">
+                    <div class="limit-index">06</div>
+                    <h3 class="limit-name">SURFACE FINISH</h3>
+                    <p class="limit-desc">Layer lines may require post-processing.</p>
+                </div>
+
+                <!-- 07 Accuracy -->
+                <div class="limit-card">
+                    <div class="limit-index">07</div>
+                    <h3 class="limit-name">ACCURACY</h3>
+                    <p class="limit-desc">Dimensional accuracy depends on machine and process conditions.</p>
+                </div>
+
+                <!-- 08 Print Time -->
+                <div class="limit-card">
+                    <div class="limit-index">08</div>
+                    <h3 class="limit-name">PRINT TIME</h3>
+                    <p class="limit-desc">Complex parts can require significant printing time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 9: OUR 3D PRINTER (BAMBU LAB H2S)
+       ========================================================================== -->
+    <section id="printer">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Laboratory Equipment</div>
+                <div style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-magenta); letter-spacing: 2px;">OUR 3D PRINTER</div>
+                <h2 class="section-title">BAMBU LAB H2S</h2>
+            </div>
+
+            <div class="printer-spec-layout">
+                <!-- Printer Visual Illustration -->
+                <div class="visual-frame">
+                    <img src="week6-assets/bambu_lab_h2s.jpg" alt="Bambu Lab H2S Industrial 3D Printer Visual" loading="lazy">
+                    <div class="visual-caption-bar">
+                        <span class="caption-title">BAMBU LAB H2S</span>
+                        <span class="caption-text">340×320×340 mm Active Heated Build Chamber</span>
+                    </div>
+                </div>
+
+                <!-- Specification Cards Grid -->
+                <div>
+                    <div class="specs-grid">
+                        <!-- Build Volume -->
+                        <div class="spec-tile highlight">
+                            <span class="spec-label">BUILD VOLUME</span>
+                            <div class="spec-value">340 × 320 × 340 <span class="spec-unit">mm</span></div>
+                        </div>
+
+                        <!-- Max Hotend Temp -->
+                        <div class="spec-tile">
+                            <span class="spec-label">MAX HOTEND TEMP</span>
+                            <div class="spec-value">350<span class="spec-unit">°C</span></div>
+                        </div>
+
+                        <!-- Chamber Heating -->
+                        <div class="spec-tile">
+                            <span class="spec-label">ACTIVE CHAMBER HEATING</span>
+                            <div class="spec-value">UP TO 65<span class="spec-unit">°C</span></div>
+                        </div>
+
+                        <!-- Toolhead Speed -->
+                        <div class="spec-tile">
+                            <span class="spec-label">MAX TOOLHEAD SPEED</span>
+                            <div class="spec-value">UP TO 1000 <span class="spec-unit">mm/s</span></div>
+                        </div>
+
+                        <!-- Max Acceleration -->
+                        <div class="spec-tile">
+                            <span class="spec-label">MAX ACCELERATION</span>
+                            <div class="spec-value">20,000 <span class="spec-unit">mm/s²</span></div>
+                        </div>
+
+                        <!-- Sensors -->
+                        <div class="spec-tile">
+                            <span class="spec-label">SENSORS</span>
+                            <div class="spec-value">23</div>
+                        </div>
+
+                        <!-- Cameras -->
+                        <div class="spec-tile">
+                            <span class="spec-label">ONBOARD CAMERAS</span>
+                            <div class="spec-value">3</div>
+                        </div>
+                    </div>
+
+                    <p class="spec-source-note">
+                        “Specifications referenced from Bambu Lab's official H2S product information.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 10: MATERIAL REFERENCE (10 MATERIALS)
+       ========================================================================== -->
+    <section id="materials">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Thermal &amp; Polymer Reference</div>
+                <h2 class="section-title">3D PRINTING MATERIALS</h2>
+                <p class="section-subtitle">Verified reference temperature ranges for standard, engineering, and composite thermoplastic filaments.</p>
+            </div>
+
+            <div class="materials-grid">
+                <!-- 1. PLA -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">PLA</span>
+                        <span class="mat-type-badge">Standard</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">180–220°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">0–60°C</span>
+                    </div>
+                </div>
+
+                <!-- 2. ABS -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">ABS</span>
+                        <span class="mat-type-badge">Engineering</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">230–260°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">90–110°C</span>
+                    </div>
+                </div>
+
+                <!-- 3. PETG -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">PETG</span>
+                        <span class="mat-type-badge">Functional</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">220–250°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">70–90°C</span>
+                    </div>
+                </div>
+
+                <!-- 4. TPU -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">TPU</span>
+                        <span class="mat-type-badge">Flexible</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">210–240°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">30–60°C</span>
+                    </div>
+                </div>
+
+                <!-- 5. NYLON -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">NYLON</span>
+                        <span class="mat-type-badge">Technical</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">240–270°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">70–100°C</span>
+                    </div>
+                </div>
+
+                <!-- 6. ASA -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">ASA</span>
+                        <span class="mat-type-badge">UV Resistant</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">240–260°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">90–110°C</span>
+                    </div>
+                </div>
+
+                <!-- 7. POLYCARBONATE (PC) -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">POLYCARBONATE (PC)</span>
+                        <span class="mat-type-badge">High Strength</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">260–310°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">90–110°C</span>
+                    </div>
+                </div>
+
+                <!-- 8. HIPS -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">HIPS</span>
+                        <span class="mat-type-badge">Soluble / Base</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">220–250°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">90–110°C</span>
+                    </div>
+                </div>
+
+                <!-- 9. WOOD-FILLED PLA -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">WOOD-FILLED PLA</span>
+                        <span class="mat-type-badge">Composite</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">190–220°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">50–60°C</span>
+                    </div>
+                </div>
+
+                <!-- 10. METAL-FILLED PLA -->
+                <div class="mat-card">
+                    <div class="mat-header">
+                        <span class="mat-name">METAL-FILLED PLA</span>
+                        <span class="mat-type-badge">Composite</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Printing Temp:</span>
+                        <span class="mat-temp-val">190–220°C</span>
+                    </div>
+                    <div class="mat-temp-row">
+                        <span class="mat-temp-label">Bed Temp:</span>
+                        <span class="mat-temp-val">50–60°C</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="material-disclaimer">
+                “Temperatures are typical reference ranges and may vary according to the specific filament, printer and manufacturer recommendations.”
+            </p>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 11: CRAB MODEL — PRACTICAL ACTIVITY & WORKFLOW
+       ========================================================================== -->
+    <section id="practical">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Laboratory Execution</div>
+                <h2 class="section-title">CRAB MODEL — PRACTICAL ACTIVITY</h2>
+                <p class="section-subtitle">“Due to limited time, I selected an existing 3D Crab model from Printables, exported the geometry as an STL file, prepared the build orientation, and fabricated it on the Bambu Lab H2S.”</p>
+            </div>
+
+            <div class="visual-frame">
+                <img src="week6-assets/practical_workflow.jpg" alt="Crab Model 5-Step Practical Execution Workflow" loading="lazy">
+                <div class="visual-caption-bar">
+                    <span class="caption-title">CRAB MODEL FABRICATION WORKFLOW: 01 PRINTABLES → 02 CRAB MODEL → 03 STL → 04 PRINT PREP → 05 BAMBU LAB PRINT</span>
+                    <span class="caption-text">Physical additive realization of selected Printables geometry</span>
+                </div>
+            </div>
+
+            <!-- 5 Steps Workflow -->
+            <div class="workflow-timeline">
+                <!-- Step 01 -->
+                <div class="workflow-step active-step">
+                    <div class="wf-num">STEP 01</div>
+                    <h3 class="wf-title">PRINTABLES</h3>
+                    <p class="wf-statement">
+                        “Due to limited time, I selected an existing 3D model from Printables rather than creating one from scratch.”
+                    </p>
+                </div>
+
+                <!-- Step 02 -->
+                <div class="workflow-step active-step">
+                    <div class="wf-num">STEP 02</div>
+                    <h3 class="wf-title">CRAB MODEL</h3>
+                    <p class="wf-statement">
+                        <strong>SELECTED MODEL: 3D CRAB</strong><br>
+                        Identified organic crab geometry featuring dual claws, curved eye domes, and leg overhang structures.
+                    </p>
+                </div>
+
+                <!-- Step 03 -->
+                <div class="workflow-step">
+                    <div class="wf-num">STEP 03</div>
+                    <h3 class="wf-title">STL FILE</h3>
+                    <p class="wf-statement">
+                        “I exported the selected Crab model as an STL file.”
+                    </p>
+                </div>
+
+                <!-- Step 04 -->
+                <div class="workflow-step">
+                    <div class="wf-num">STEP 04</div>
+                    <h3 class="wf-title">PRINT PREP</h3>
+                    <p class="wf-statement">
+                        Crab model positioned on virtual build platform with orientation and layer heights configured for bed adhesion.
+                    </p>
+                </div>
+
+                <!-- Step 05 -->
+                <div class="workflow-step">
+                    <div class="wf-num">STEP 05</div>
+                    <h3 class="wf-title">PHYSICAL PRINT</h3>
+                    <p class="wf-statement">
+                        Bambu Lab H2S producing the Crab object layer by layer to create the completed physical component.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Crab Model Spotlight Card -->
+            <div class="crab-model-spotlight">
+                <div class="crab-preview-frame">
+                    <span class="crab-badge">MY PRACTICAL 3D MODEL</span>
+                    <img src="crab-model.png" alt="Selected 3D Crab Model Top-Down Render">
+                </div>
+
+                <div class="crab-details-col">
+                    <div class="section-tag" style="margin-bottom: 0;">PHYSICAL ARTIFACT SELECTION</div>
+                    <h3 class="crab-title">3D CRAB MODEL</h3>
+                    <p class="crab-desc-highlight">
+                        “Selected from Printables to evaluate dual claws, curved eye domes, and leg overhang geometries on the Bambu Lab build bed.”
+                    </p>
+
+                    <div class="crab-specs-pills">
+                        <div class="crab-pill"><strong>SOURCE:</strong> Printables Repository</div>
+                        <div class="crab-pill"><strong>FORMAT:</strong> STL Surface Mesh</div>
+                        <div class="crab-pill"><strong>GEOMETRY:</strong> Organic Curvature &amp; Overhangs</div>
+                        <div class="crab-pill"><strong>PRINTER:</strong> Bambu Lab H2S</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practical Workshop Evidence (Clean photo showcase) -->
+            <div class="practical-evidence-section">
+                <div class="evidence-header">
+                    <span>LABORATORY EXECUTION EVIDENCE &amp; LOGS</span>
+                </div>
+
+                <div class="evidence-grid">
+                    <!-- Photo 1: Crab 3D Model -->
+                    <div class="evidence-card">
+                        <div class="evidence-img-box">
+                            <img src="crab-model.png" alt="Selected 3D Crab Model Geometry">
+                        </div>
+                        <div class="evidence-meta">
+                            <div class="evidence-step-tag">STEP 01 — 02</div>
+                            <div class="evidence-title">Selected Crab 3D Model</div>
+                            <div class="evidence-telemetry">Printables source geometry &amp; surface orientation</div>
+                        </div>
+                    </div>
+
+                    <!-- Photo 2: Live Printing Progress on Bambu Lab -->
+                    <div class="evidence-card">
+                        <div class="evidence-img-box">
+                            <img src="printing-progress.jpg" alt="Printing progress of Crab Model on Bambu Lab build bed">
+                        </div>
+                        <div class="evidence-meta">
+                            <div class="evidence-step-tag">STEP 04 — 05</div>
+                            <div class="evidence-title">Crab Model in Print Progress</div>
+                            <div class="evidence-telemetry">Telemetry: Bed 55°C • Nozzle 220°C • Chamber 32°C</div>
+                        </div>
+                    </div>
+
+                    <!-- Photo 3: Physical Print Verification -->
+                    <div class="evidence-card">
+                        <div class="evidence-img-box">
+                            <img src="printer-interaction.jpg" alt="Physical verification of layer deposition">
+                        </div>
+                        <div class="evidence-meta">
+                            <div class="evidence-step-tag">STEP 05</div>
+                            <div class="evidence-title">Bambu Lab Build Plate Fabricating</div>
+                            <div class="evidence-telemetry">340 × 320 × 340 mm platform with active toolhead</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 12: WHY STL? (TRIANGULATED MESH)
+       ========================================================================= -->
+    <section id="why-stl">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Geometric Standard</div>
+                <h2 class="section-title">WHY STL?</h2>
+            </div>
+
+            <div class="stl-concept-grid">
+                <!-- Visual Infographic -->
+                <div class="visual-frame">
+                    <img src="week6-assets/stl_mesh_concept.jpg" alt="Why STL: Smooth CAD geometry to Triangulated Mesh Tessellation to Sliced Layers" loading="lazy">
+                    <div class="visual-caption-bar">
+                        <span class="caption-title">SURFACE TESSELLATION &amp; MESH REPRESENTATION</span>
+                        <span class="caption-text">Smooth CAD Geometry → Planar Triangular Mesh</span>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="stl-explanation-card">
+                    <p class="stl-main-quote">
+                        “STL represents the surface geometry of a 3D object as a mesh of triangles.”
+                    </p>
+
+                    <div class="stl-step-sequence">
+                        <span class="stl-seq-item">SMOOTH MODEL</span>
+                        <span class="stl-seq-arrow">→</span>
+                        <span class="stl-seq-item">TRIANGULAR FACETS</span>
+                        <span class="stl-seq-arrow">→</span>
+                        <span class="stl-seq-item">STL</span>
+                    </div>
+
+                    <div class="stl-step-sequence" style="background: rgba(152, 36, 214, 0.1);">
+                        <span class="stl-seq-item">3D MODEL</span>
+                        <span class="stl-seq-arrow">↓</span>
+                        <span class="stl-seq-item">TRIANGULATED SURFACE</span>
+                        <span class="stl-seq-arrow">↓</span>
+                        <span class="stl-seq-item">STL FILE</span>
+                        <span class="stl-seq-arrow">↓</span>
+                        <span class="stl-seq-item">PRINT PREPARATION</span>
+                    </div>
+
+                    <p class="stl-note-text">
+                        “STL is commonly used to represent 3D surface geometry in digital fabrication workflows.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SECTION 13: FINAL WEEK 6 VISUAL & CONCLUSION
+       ========================================================================== -->
+    <section id="conclusion">
+        <div class="container">
+            <div class="section-header" style="text-align: center;">
+                <div class="section-tag" style="justify-content: center;">Complete Fabrication Journey</div>
+                <h2 class="section-title">DIGITAL TO PHYSICAL REALIZATION</h2>
+            </div>
+
+            <div class="final-hero-banner">
+                <div class="visual-frame">
+                    <img src="week6-assets/final_cinematic.jpg" alt="From Digital Geometry to Physical Prototype Complete Pipeline" loading="lazy">
+                    <div class="visual-caption-bar">
+                        <span class="caption-title">DIGITAL CAD → STL MESH → PRINT PREP → LAYER FABRICATION → PHYSICAL OBJECT</span>
+                        <span class="caption-text">ProtoSem Week 06 Manufacturing Synthesis</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="final-quote-block">
+                <h3 class="final-cream-statement">
+                    FROM DIGITAL GEOMETRY<br>
+                    TO<br>
+                    PHYSICAL PROTOTYPE
+                </h3>
+                <div class="final-meta-label">
+                    PROTOSEM — WEEK 06 &nbsp;|&nbsp; 3D PRINTING BASICS
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="index.html">Main Portfolio</a>
+                <a href="index.html#journey">PRICE Passport</a>
+                <a href="#hero">Back to Top ↑</a>
+            </div>
+            <p>Ayesha Jumana • ProtoSem Innovation Engineering Portfolio</p>
+        </div>
+    </footer>
+</body>
+
+</html>
